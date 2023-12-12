@@ -131,9 +131,7 @@ End Fixed Navigation
 				<th>
 					Edit
 				</th>
-				<th>
-					Delete
-				</th>
+
 
 			</thead>
 			<tbody>
@@ -155,15 +153,7 @@ End Fixed Navigation
 						<td class="edit-td">
 							<button class="edit-btn btn" data-user-id="<%= allAccounts[iCount].user_id %>">Edit</button>
 						</td>
-						<td class="">
-							<form id="deleteLogoutUserForm"
-								action="/delete-logout-user/<%= allAccounts[iCount].user_id %>" method="POST"
-								class="edit-td" onsubmit="return confirmDeleteLogout()">
-								<input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
-							</form>
 
-
-						</td>
 
 
 					</tr>
@@ -179,13 +169,21 @@ End Fixed Navigation
 								<label for="">Email</label>
 								<input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
 								<label for="">Username</label>
-								<input type="text" name="username" value="<%= allAccounts[iCount].last_name%>" required>
+								<input type="text" name="username" value="<%= allAccounts[iCount].username%>" required>
 								<label for="">Update Password</label>
 								<input type="password" name="password" value="">
 
+								<div class="btn-span">
+									<button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
+										Changes</button>
 
-								<button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
-									Changes</button>
+									<form id="deleteLogoutUserForm"
+										action="/delete-logout-user/<%= allAccounts[iCount].user_id %>" method="POST"
+										class="edit-td" onsubmit="return confirmDeleteLogout()">
+										<input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
+									</form>
+
+								</div>
 							</form>
 
 

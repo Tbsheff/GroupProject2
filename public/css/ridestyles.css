@@ -65,3 +65,42 @@ h2 {
 #submitButton {
     margin-bottom: 0;
 }
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1em;
+    font-family: 'Arial', sans-serif;
+    min-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.styled-table thead tr {
+    background-color: #009688;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f7f7f7;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009688;
+}
+
+.styled-table tbody tr:hover {
+    background-color: #e0f2f1;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009688;
+}
