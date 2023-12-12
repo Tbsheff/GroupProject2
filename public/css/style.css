@@ -2522,7 +2522,7 @@ a:hover {
 
 /*# sourceMappingURL=style.css.map */
 
-section {
+main {
   display: flex;
   align-content: flex-start;
   flex-direction: column;
@@ -2558,7 +2558,7 @@ section h2 {
   padding: 6px 12px;
 }
 
-form .edit-btn:hover{
+form .edit-btn:hover {
   background-color: white;
   color: #4caf50;
   border: none;

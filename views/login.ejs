@@ -54,16 +54,16 @@
 							<a class="nav-link" href="/">Home</a>
 						</li>
 						<% if(!user) { %>
-						
+
 							<li class="nav-item ">
 								<a class="nav-link" href="/login">Login</a>
 							</li>
 							<% } else { %>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/rides">Find a Ride</a>
 								</li>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/newride">Post a Ride</a>
 								</li>
@@ -71,7 +71,7 @@
 								<li class="nav-item ">
 									<a class="nav-link" href="/account">My Account</a>
 								</li>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/logout">Logout</a>
 								</li>
@@ -84,34 +84,35 @@
 		</div>
 	</header>
 
+	<main>
+		<div class="container d-flex align-items-center justify-content-center portfolio-filter" style="height: 93vh;">
+			<div class="row justify-content-center login-row">
+				<form action="/login" method="post">
+					<div class="form-group">
+						<label>Cougar Cruisers</label>
+						<input type="text" class="form-control" id="username" name="username" placeholder="Username"
+							required>
+					</div>
 
-	<div class="container d-flex align-items-center justify-content-center portfolio-filter" style="height: 93vh;">
-		<div class="row justify-content-center login-row">
-			<form action="/login" method="post">
-				<div class="form-group">
-					<label>Cougar Cruisers</label>
-					<input type="text" class="form-control" id="username" name="username" placeholder="Username"
-						required>
+					<div class="form-group">
+						<!-- <label for="password">Password</label> -->
+						<input type="password" class="form-control" id="password" name="password" placeholder="Password"
+							required>
+					</div>
+
+					<input type="submit" class="btn btn-main btn-block" style="margin: 0;" value="Login">
+				</form>
+				<div>
+					<p>New to Cougar Cruiser? </p>
+					<a href="/signup">Sign up now.</a>
 				</div>
-
-				<div class="form-group">
-					<!-- <label for="password">Password</label> -->
-					<input type="password" class="form-control" id="password" name="password" placeholder="Password"
-						required>
-				</div>
-
-				<input type="submit" class="btn btn-main btn-block" style="margin: 0;" value="Login">
-			</form>
-			<div>
-				<p>New to Cougar Cruiser? </p>
-				<a href="/signup">Sign up now.</a>
 			</div>
+
 		</div>
 
-	</div>
 
 
-
+	</main>
 
 
 	<!-- ========== ESSENTIAL SCRIPTS ========== -->
