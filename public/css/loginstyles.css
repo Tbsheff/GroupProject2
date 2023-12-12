@@ -1,5 +1,5 @@
 header {
-    background-color: lightslategrey;
+    background-color: #303036;
 }
 
 label {
@@ -26,4 +26,9 @@ p {
 
 .login-row {
     flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2.25rem;
+    background-color: #fffaff;
 }

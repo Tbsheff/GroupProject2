@@ -145,25 +145,6 @@ End Fixed Navigation
 							Join Ride
 						</th>
 
-						<td>
-							<%= allRides[iCount].formattedDateLeaving %>
-						</td>
-
-						<td>
-							<%= allRides[iCount].end_city %>
-						</td>
-						<td>
-							<%= allRides[iCount].end_state %>
-						</td>
-						<td>
-							<%= allRides[iCount].spots_remaining%>
-						</td>
-						<td>
-							<form class="join-ride-form" action="/join-ride" method="post">
-								<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
-								<input type="submit" value="Join Ride" class="edit-btn">
-							</form>
-						</td>
 					</tr>
 				</thead>
 				<tbody>

@@ -80,7 +80,7 @@ h2 {
 }
 
 .styled-table thead tr {
-    background-color: #009688;
+    background-color: #30BCED;
     color: #ffffff;
     text-align: left;
 }
@@ -94,15 +94,21 @@ h2 {
     background-color: #f7f7f7;
 }
 
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009688;
-}
+.styled-table tbody tr:last-of-type {}
 
 .styled-table tbody tr:hover {
-    background-color: #e0f2f1;
+    background-color: #fc52305b;
 }
 
 .styled-table tbody tr.active-row {
     font-weight: bold;
     color: #009688;
+}
+
+.big-label {
+    font-size: 2rem;
+    text-align: center;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #303036;
 }
