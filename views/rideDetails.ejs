@@ -112,51 +112,38 @@ Fixed Navigation
 	<!--
 End Fixed Navigation
 ==================================== -->
-	<section class="service-2 section">
-		<h2>Available Rides</h2>
 
-		<table class="styled-table">
-			<thead>
-				<tr>
-					<th>
-						Start City
-					</th>
-					<th>
-						Start State
-					</th>
-					<th>
-						Time Leaving
-					</th>
-					<th>
-						Date Leaving
-					</th>
-					<th>
-						End City
-					</th>
-					<th>
-						End State
-					</th>
-					<th>
-						Spots Remaining
-					</th>
-					<th>
-						Join Ride
-					</th>
+	<main>
+		<section class="service-2 section">
+			<h2>Available Rides</h2>
 
-				</tr>
-			</thead>
-			<tbody>
-				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+			<table class="styled-table">
+				<thead>
 					<tr>
-						<td>
-							<%= allRides[iCount].start_city %>
-						</td>
-						<td>
-							<%= allRides[iCount].start_state %>
-						</td>
-						<td>
-							<%= allRides[iCount].formattedTimeLeaving %>
-						</td>
+						<th>
+							Start City
+						</th>
+						<th>
+							Start State
+						</th>
+						<th>
+							Time Leaving
+						</th>
+						<th>
+							Date Leaving
+						</th>
+						<th>
+							End City
+						</th>
+						<th>
+							End State
+						</th>
+						<th>
+							Spots Remaining
+						</th>
+						<th>
+							Join Ride
+						</th>
 
 						<td>
 							<%= allRides[iCount].formattedDateLeaving %>
@@ -178,14 +165,47 @@ End Fixed Navigation
 							</form>
 						</td>
 					</tr>
-					<% } %>
-			</tbody>
-		</table>
-	</section>
+				</thead>
+				<tbody>
+					<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+						<tr>
+							<td>
+								<%= allRides[iCount].start_city %>
+							</td>
+							<td>
+								<%= allRides[iCount].start_state %>
+							</td>
+							<td>
+								<%= allRides[iCount].formattedTimeLeaving %>
+							</td>
+
+							<td>
+								<%= allRides[iCount].formattedDateLeaving %>
+							</td>
+
+							<td>
+								<%= allRides[iCount].end_city %>
+							</td>
+							<td>
+								<%= allRides[iCount].end_state %>
+							</td>
+							<td>
+								<%= allRides[iCount].spots_remaining%>
+							</td>
+							<td>
+								<form class="join-ride-form" action="/join-ride" method="post">
+									<input type="submit" name="ride_id" value="Join Ride" class="edit-btn">
+								</form>
+							</td>
+						</tr>
+						<% } %>
+				</tbody>
+			</table>
+		</section>
 
 
 
-
+	</main>
 	<footer id="footer" class="bg-one">
 		<div class="top-footer">
 			<div class="container">

@@ -79,16 +79,16 @@ Fixed Navigation
 							<a class="nav-link" href="/">Home</a>
 						</li>
 						<% if(!user) { %>
-						
+
 							<li class="nav-item ">
 								<a class="nav-link" href="/login">Login</a>
 							</li>
 							<% } else { %>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/rides">Find a Ride</a>
 								</li>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/newride">Post a Ride</a>
 								</li>
@@ -96,7 +96,7 @@ Fixed Navigation
 								<li class="nav-item ">
 									<a class="nav-link" href="/account">My Account</a>
 								</li>
-						
+
 								<li class="nav-item ">
 									<a class="nav-link" href="/logout">Logout</a>
 								</li>
@@ -111,46 +111,48 @@ Fixed Navigation
 	<!--
 End Fixed Navigation
 ==================================== -->
-	<section class="service-2 section">
-		<form action="/newRide" method="post">
-			<label for="start_city">Departure City</label>
-			<input type="text" id="start_city" name="start_city">
 
-			<label for="start_state">Departure State</label>
-			<input type="text" id="start_state" name="start_state">
+	<main>
+		<section class="service-2 section">
+			<form action="/newRide" method="post">
+				<label for="start_city">Departure City</label>
+				<input type="text" id="start_city" name="start_city">
 
-			<label for="start_zip">Departure ZipCode</label>
-			<input type="number" id="start_zip" name="start_zip">
+				<label for="start_state">Departure State</label>
+				<input type="text" id="start_state" name="start_state">
 
-			<label for="date_leaving">Departure Date</label>
-			<input type="date" id="date_leaving" name="date_leaving">
+				<label for="start_zip">Departure ZipCode</label>
+				<input type="number" id="start_zip" name="start_zip">
 
-			<label for="time_leaving">Departure Time</label>
-			<input type="time" id="time_leaving" name="time_leaving">
+				<label for="date_leaving">Departure Date</label>
+				<input type="date" id="date_leaving" name="date_leaving">
 
-			<label for="end_city">Destination City</label>
-			<input type="text" id="end_city" name="end_city">
+				<label for="time_leaving">Departure Time</label>
+				<input type="time" id="time_leaving" name="time_leaving">
 
-			<label for="end_state">Destination State</label>
-			<input type="text" id="end_state" name="end_state">
+				<label for="end_city">Destination City</label>
+				<input type="text" id="end_city" name="end_city">
 
-			<label for="end_zip">Destination ZipCode</label>
-			<input type="number" id="end_zip" name="end_zip">
+				<label for="end_state">Destination State</label>
+				<input type="text" id="end_state" name="end_state">
 
-			<label for="max_students">Ride Capacity</label>
-			<input type="number" id="max_students" name="max_students">
+				<label for="end_zip">Destination ZipCode</label>
+				<input type="number" id="end_zip" name="end_zip">
 
-			<label for="student_driver">Driver</label>
-			<input type="number" id="student_driver" name="student_driver">
+				<label for="max_students">Ride Capacity</label>
+				<input type="number" id="max_students" name="max_students">
 
-			<input type="submit" value="Add Ride">
-		</form>
+				<label for="student_driver">Driver</label>
+				<input type="number" id="student_driver" name="student_driver">
 
-	</section>
+				<input type="submit" value="Add Ride">
+			</form>
+
+		</section>
 
 
 
-
+	</main>
 
 	<footer id="footer" class="bg-one">
 		<div class="top-footer">

@@ -112,130 +112,148 @@ Fixed Navigation
 	<!--
 End Fixed Navigation
 ==================================== -->
-	<section class="service-2 section">
-		<table class="table-style" id="survey-results-table">
-			<thead>
 
-				<th>
-					First name
-				</th>
-				<th>
-					Last Name
-				</th>
-				<th>
-					Email
-				</th>
-				<th>
-					Username
-				</th>
-				<th>
-					Edit
-				</th>
-
-
-			</thead>
-			<tbody>
-				<% for (let iCount=0; iCount < allAccounts.length; iCount++) { %>
-					<tr>
-						<td>
-							<%= allAccounts[iCount].first_name%>
-						</td>
-						<td>
-							<%= allAccounts[iCount].last_name%>
-						</td>
-						<td>
-							<%= allAccounts[iCount].email%>
-						</td>
-						<td>
-							<%= allAccounts[iCount].username%>
-						</td>
-
-						<td class="edit-td">
-							<button class="edit-btn btn" data-user-id="<%= allAccounts[iCount].user_id %>">Edit</button>
-						</td>
-
-
-
-					</tr>
-					<tr class="edit-form" id="edit-form-<%= allAccounts[iCount].user_id %>" style="display: none;">
-						<td colspan="100%">
-							<form action="/modify-user" method="post" class="modify-user">
-								<label for="">First Name</label>
-								<input type="text" name="first_name" value="<%= allAccounts[iCount].first_name%>"
-									required>
-								<label for="">Last name</label>
-								<input type="text" name="last_name" value="<%= allAccounts[iCount].last_name%>"
-									required>
-								<label for="">Email</label>
-								<input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
-								<label for="">Username</label>
-								<input type="text" name="username" value="<%= allAccounts[iCount].username%>" required>
-								<label for="">Update Password</label>
-								<input type="password" name="password" value="">
-
-								<div class="btn-span">
-									<button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
-										Changes</button>
-
-									<form id="deleteLogoutUserForm"
-										action="/delete-logout-user/<%= allAccounts[iCount].user_id %>" method="POST"
-										class="edit-td" onsubmit="return confirmDeleteLogout()">
-										<input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
-									</form>
-
-								</div>
-							</form>
-
-
-						</td>
-					</tr>
-					<% } %>
-			</tbody>
-		</table>
-	</section>
-
-	<% if (rides.length === 0) { %>
-		<h2>My Rides</h2>
-		<p>No rides found.</p>
-	<% } else { %>
-	
+	<main class="site-content" role="main">
 		<section class="service-2 section">
-			<!--Header for user rides table-->
-			<div style="text-align: center;">
-				<h2 style="margin-bottom: 0;">My Rides</h2>
-			</div>
-	
 			<table class="table-style" id="survey-results-table">
 				<thead>
-					<tr>
-						<th>Ride ID</th>
-						<th>Start State</th>
-						<th>Start City</th>
-						<th>Date Leaving</th>
-						<th>Time Leaving</th>
-						<th>End City</th>
-						<th>End State</th>
-					</tr>
+
+					<th>
+						First name
+					</th>
+					<th>
+						Last Name
+					</th>
+					<th>
+						Email
+					</th>
+					<th>
+						Username
+					</th>
+					<th>
+						Edit
+					</th>
+
+
 				</thead>
 				<tbody>
-					<% for (let iCount = 0; iCount < rides.length; iCount++) { %>
+					<% for (let iCount=0; iCount < allAccounts.length; iCount++) { %>
 						<tr>
-							<td><%= rides[iCount].ride_id %></td>
-							<td><%= rides[iCount].start_state %></td>
-							<td><%= rides[iCount].start_city %></td>
-							<td><%= rides[iCount].end_state %></td>
-							<td><%= rides[iCount].end_city %></td>
-							<td><%= rides[iCount].formattedDateLeaving %></td>
-							<td><%= rides[iCount].formattedTimeLeaving %></td>
+							<td>
+								<%= allAccounts[iCount].first_name%>
+							</td>
+							<td>
+								<%= allAccounts[iCount].last_name%>
+							</td>
+							<td>
+								<%= allAccounts[iCount].email%>
+							</td>
+							<td>
+								<%= allAccounts[iCount].username%>
+							</td>
+
+							<td class="edit-td">
+								<button class="edit-btn btn"
+									data-user-id="<%= allAccounts[iCount].user_id %>">Edit</button>
+							</td>
+
+
+
 						</tr>
-					<% } %>
+						<tr class="edit-form" id="edit-form-<%= allAccounts[iCount].user_id %>" style="display: none;">
+							<td colspan="100%">
+								<form action="/modify-user" method="post" class="modify-user">
+									<label for="">First Name</label>
+									<input type="text" name="first_name" value="<%= allAccounts[iCount].first_name%>"
+										required>
+									<label for="">Last name</label>
+									<input type="text" name="last_name" value="<%= allAccounts[iCount].last_name%>"
+										required>
+									<label for="">Email</label>
+									<input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
+									<label for="">Username</label>
+									<input type="text" name="username" value="<%= allAccounts[iCount].username%>"
+										required>
+									<label for="">Update Password</label>
+									<input type="password" name="password" value="">
+
+									<div class="btn-span">
+										<button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
+											Changes</button>
+
+										<form id="deleteLogoutUserForm"
+											action="/delete-logout-user/<%= allAccounts[iCount].user_id %>"
+											method="POST" class="edit-td" onsubmit="return confirmDeleteLogout()">
+											<input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
+										</form>
+
+									</div>
+								</form>
+
+
+							</td>
+						</tr>
+						<% } %>
 				</tbody>
 			</table>
 		</section>
-	
-	<% } %>
-	
-	
+
+		<% if (rides.length===0) { %>
+			<h2>My Rides</h2>
+			<p>No rides found.</p>
+			<% } else { %>
+
+				<section class="service-2 section">
+					<!--Header for user rides table-->
+					<div style="text-align: center;">
+						<h2 style="margin-bottom: 0;">My Rides</h2>
+					</div>
+
+					<table class="table-style" id="survey-results-table">
+						<thead>
+							<tr>
+								<th>Ride ID</th>
+								<th>Start State</th>
+								<th>Start City</th>
+								<th>Date Leaving</th>
+								<th>Time Leaving</th>
+								<th>End City</th>
+								<th>End State</th>
+							</tr>
+						</thead>
+						<tbody>
+							<% for (let iCount=0; iCount < rides.length; iCount++) { %>
+								<tr>
+									<td>
+										<%= rides[iCount].ride_id %>
+									</td>
+									<td>
+										<%= rides[iCount].start_state %>
+									</td>
+									<td>
+										<%= rides[iCount].start_city %>
+									</td>
+									<td>
+										<%= rides[iCount].end_state %>
+									</td>
+									<td>
+										<%= rides[iCount].end_city %>
+									</td>
+									<td>
+										<%= rides[iCount].formattedDateLeaving %>
+									</td>
+									<td>
+										<%= rides[iCount].formattedTimeLeaving %>
+									</td>
+								</tr>
+								<% } %>
+						</tbody>
+					</table>
+				</section>
+
+				<% } %>
+
+	</main>
 	<footer id="footer" class="bg-one">
 		<div class="top-footer">
 			<div class="container">
