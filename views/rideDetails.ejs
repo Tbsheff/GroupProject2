@@ -172,14 +172,16 @@ End Fixed Navigation
 							<%= allRides[iCount].spots_remaining%>
 						</td>
 						<td>
-							<a href="/joinride/<%= allRides[iCount].ride_id%>">Join Ride</a>
+							<form class="join-ride-form" action="/join-ride" method="post">
+								<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+								<button type="submit">Join Ride</button>
+							</form>
 						</td>
 					</tr>
 					<% } %>
 			</tbody>
 		</table>
 	</section>
-
 
 
 
