@@ -82,13 +82,10 @@ a:hover {
   padding: 12px 40px;
   text-transform: uppercase;
   border-radius: 40px;
-  transition: all 0.3s ease-in-out;
 }
 
 .btn-main:hover {
-  color: #28ABE3;
-  background-color: white;
-  opacity: 0.8;
+  color: #fff;
 }
 
 .btn-transparent {
@@ -100,12 +97,10 @@ a:hover {
   padding: 14px 35px;
   text-transform: uppercase;
   border-radius: 40px;
-  transition: all 0.3s ease-in-out;
 }
 
 .btn-transparent:hover {
-  color: black;
-  background-color: white;
+  color: #fff;
 }
 
 .mt-10 {
