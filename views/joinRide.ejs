@@ -115,53 +115,52 @@ Fixed Navigation
 	<!--
 End Fixed Navigation
 ==================================== -->
-	<section class="service-2 section">
-		<table>
-			<thead>
-				<tr>
-					<th>Start City</th>
-					<th>Start State</th>
-					<th>Time Leaving</th>
-					<th>Date Leaving</th>
-					<th>End City</th>
-					<th>End State</th>
-					<th>Spots Remaining</th>
-				</tr>
-			</thead>
-			<tbody>
-				<% for (let iCount=0; iCount < ride.length; iCount++) { %>
+	<main>
+		<section class="service-2 section">
+			<table>
+				<thead>
 					<tr>
-						<td>
-							<%= ride[iCount].start_city %>
-						</td>
-						<td>
-							<%= ride[iCount].start_state %>
-						</td>
-						<td>
-							<%= ride[iCount].formattedTimeLeaving %>
-						</td>
-						<td>
-							<%= ride[iCount].formattedDateLeaving %>
-						</td>
-						<td>
-							<%= ride[iCount].end_city %>
-						</td>
-						<td>
-							<%= ride[iCount].end_state %>
-						</td>
-						<td>
-							<%= ride[iCount].spots_remaining %>
-						</td>
+						<th>Start City</th>
+						<th>Start State</th>
+						<th>Time Leaving</th>
+						<th>Date Leaving</th>
+						<th>End City</th>
+						<th>End State</th>
+						<th>Spots Remaining</th>
 					</tr>
-					<% } %>
-			</tbody>
-		</table>
-	</section>
+				</thead>
+				<tbody>
+					<% for (let iCount=0; iCount < ride.length; iCount++) { %>
+						<tr>
+							<td>
+								<%= ride[iCount].start_city %>
+							</td>
+							<td>
+								<%= ride[iCount].start_state %>
+							</td>
+							<td>
+								<%= ride[iCount].formattedTimeLeaving %>
+							</td>
+							<td>
+								<%= ride[iCount].formattedDateLeaving %>
+							</td>
+							<td>
+								<%= ride[iCount].end_city %>
+							</td>
+							<td>
+								<%= ride[iCount].end_state %>
+							</td>
+							<td>
+								<%= ride[iCount].spots_remaining %>
+							</td>
+						</tr>
+						<% } %>
+				</tbody>
+			</table>
+		</section>
 
-
-
-
-
+	</main>
+	
 	<footer id="footer" class="bg-one">
 		<div class="top-footer">
 			<div class="container">
