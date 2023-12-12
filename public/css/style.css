@@ -2547,9 +2547,8 @@ section h2 {
   margin: 0;
 }
 
-.edit-btn,
-.btn {
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+.edit-btn {
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, color .15s ease-in-out;
   background-color: #4caf50;
   color: white;
   border: none;
@@ -2557,6 +2556,12 @@ section h2 {
   cursor: pointer;
   margin: 0;
   padding: 6px 12px;
+}
+
+form .edit-btn:hover{
+  background-color: white;
+  color: #4caf50;
+  border: none;
 }
 
 .btn-span {
@@ -2568,4 +2573,9 @@ section h2 {
 
 .btn-span input {
   width: fit-content;
+}
+
+.join-ride-form {
+  margin: 0 auto;
+  padding: 0;
 }

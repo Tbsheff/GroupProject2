@@ -383,8 +383,8 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
 
 //logic for passing user information to the database when they join a ride
 app.post('/join-ride', isAuthenticated, (req, res) => {
-    const studentId = req.session.user.id;
-    const rideId = req.body.ride_id; 
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id; 
 
     //check if the student has already joined the ride
     knex('student_ride')
