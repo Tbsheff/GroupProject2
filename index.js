@@ -416,6 +416,24 @@ app.post('/join-ride', isAuthenticated, (req, res) => {
         })
 });
 
+//logic for deleting user info from database when leaving a ride
+app.post('/leave-ride', isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id;
+
+    knex('student_ride')
+        .where({ student_id: studentId, ride_id: rideId })
+        .del()
+        .then(() => {
+            res.redirect(`/rides`); // Redirecting to a page that lists available rides or a confirmation page
+        })
+        .catch(err => {
+            // Handle errors
+            res.status(500).send('Error leaving the ride');
+        });
+});
+
+
 
 
 app.listen(port, () => console.log("Server is running"));
