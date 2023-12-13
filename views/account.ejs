@@ -197,7 +197,10 @@ End Fixed Navigation
 									</td>
 									<td>
 										<% if (rides[iCount].isDriver) { %>
-											<span>Your Ride</span>
+											<form class="delete-ride-form" action="/delete-ride" method="post">
+												<input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+												<input type="submit" value="Delete Ride" class="edit-btn">
+											</form>
 										<% } else { %>
 											<form class="leave-ride-form" action="/leave-rideAccount" method="post">
 												<input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">

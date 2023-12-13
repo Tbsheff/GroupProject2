@@ -257,7 +257,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-
+//creates route for page to display account info + joined/hosted rides
 app.get('/account', isAuthenticated, (req, res) => {
     //grab the student_id
     let studentId = req.session.user.id;
@@ -277,18 +277,18 @@ app.get('/account', isAuthenticated, (req, res) => {
     .join('security as sec', 'sec.student_id', 's.student_id')
     .where('s.student_id', studentId)
     .then(accountResults => {
-        // Fetch joined rides
+        //grab joined rides
         return knex('student_ride')
             .join('ride', 'student_ride.ride_id', '=', 'ride.ride_id')
             .where('student_ride.student_id', studentId)
             .select('ride.*', knex.raw("'joined' as rideType"))
             .then(joinedRides => {
-                // Fetch hosted rides
+                //grab hosted rides
                 return knex('ride')
                     .where({ student_driver: studentId })
                     .select('*', knex.raw("'hosted' as rideType"))
                     .then(hostedRides => {
-                        // Combine both lists
+                        //combine
                         const allRides = [...joinedRides, ...hostedRides].map(ride => {
                             return {
                                 ...ride,
@@ -421,6 +421,27 @@ app.post('/leave-rideAccount', isAuthenticated, (req, res) => {
         .then(() => {
             res.redirect(`/account`);
         })
+});
+
+//logic to allow users to delete a ride they hosted
+app.post('/delete-ride', isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id;
+
+    knex.transaction(async trx => {
+        try {
+            //delete all in student_ride table
+            await trx('student_ride').where('ride_id', rideId).del();
+
+            //delete ride
+            await trx('ride').where({ 'ride_id': rideId, 'student_driver': studentId }).del();
+
+            res.redirect('/account');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Error deleting the ride.");
+        }
+    });
 });
 
 

@@ -160,7 +160,10 @@ End Fixed Navigation
 							<td><%= allRides[iCount].spots_remaining %></td>
 							<td>
 								<% if (allRides[iCount].isDriver) { %>
-									<span>Your Ride</span>
+									<form class="delete-ride-form" action="/delete-ride" method="post">
+										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+										<input type="submit" value="Delete Ride" class="edit-btn">
+									</form>
 								<% } else if (allRides[iCount].hasjoined) { %>
 									<form class="leave-ride-form" action="/leave-ride" method="post">
 										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
