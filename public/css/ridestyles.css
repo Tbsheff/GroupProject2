@@ -112,3 +112,38 @@ h2 {
     color: #303036;
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.grid-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.grid-item div {
+    margin-bottom: 10px;
+}
+
+.ride-action {
+    text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, minmax(300px, 1fr));
+        /* Three columns on larger screens */
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .grid-container {
+        grid-template-columns: repeat(3, minmax(300px, 1fr));
+        /* Four columns on even larger screens */
+    }
+}

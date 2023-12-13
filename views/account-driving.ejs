@@ -1,12 +1,14 @@
 <section class="service-2 section">
     <!--Header for user rides table-->
     <div style="text-align: center;">
-        <h2 style="margin-bottom: 0;">Joined Rides</h2>
+        <h2 style="margin-bottom: 0;">My Posted Rides</h2>
     </div>
 
-    <% if (rides.length===0) { %>
-        <p class="align-p-center">No rides found.</p>
+    <% if (hostedRides.length===0) { %>
+        <p class="align-p-center">No Rides Posted Yet.</p>
         <% } else { %>
+
+
 
             <table class="table-style" id="survey-results-table">
                 <thead>
@@ -22,38 +24,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% for (let iCount=0; iCount < rides.length; iCount++) { %>
+                    <% for (let iCount=0; iCount < hostedRides.length; iCount++) { %>
                         <tr>
                             <td>
-                                <%= rides[iCount].ride_id %>
+                                <%= hostedRides[iCount].ride_id %>
                             </td>
                             <td>
-                                <%= rides[iCount].start_state %>
+                                <%= hostedRides[iCount].start_state %>
                             </td>
                             <td>
-                                <%= rides[iCount].start_city %>
+                                <%= hostedRides[iCount].start_city %>
                             </td>
                             <td>
-                                <%= rides[iCount].end_state %>
+                                <%= hostedRides[iCount].end_state %>
                             </td>
                             <td>
-                                <%= rides[iCount].end_city %>
+                                <%= hostedRides[iCount].end_city %>
                             </td>
                             <td>
-                                <%= rides[iCount].formattedDateLeaving %>
+                                <%= hostedRides[iCount].formattedDateLeaving %>
                             </td>
                             <td>
-                                <%= rides[iCount].formattedTimeLeaving %>
+                                <%= hostedRides[iCount].formattedTimeLeaving %>
                             </td>
                             <td>
-                                <% if (rides[iCount].isDriver) { %>
+                                <% if (hostedRides[iCount].isDriver) { %>
                                     <form class="delete-ride-form" action="/delete-ride" method="post">
-                                        <input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+                                        <input type="hidden" name="ride_id" value="<%= hostedRides[iCount].ride_id %>">
                                         <input type="submit" value="Delete Ride" class="edit-btn">
                                     </form>
                                     <% } else { %>
                                         <form class="leave-ride-form" action="/leave-rideAccount" method="post">
-                                            <input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+                                            <input type="hidden" name="ride_id"
+                                                value="<%= hostedRides[iCount].ride_id %>">
                                             <input type="submit" value="Leave Ride" class="edit-btn">
                                         </form>
                                         <% } %>
