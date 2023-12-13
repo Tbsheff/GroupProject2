@@ -152,6 +152,32 @@ End Fixed Navigation
 						</tr>
 				</tbody>
 			</table>
+            <table class="styled-table">
+				<thead>
+					<tr>
+						<th>
+							Driver First Name
+						</th>
+                        <th>
+							Driver Last Name
+						</th>
+						<th>
+							Driver Phone Number
+						</th>
+						<th>
+							Driver Email
+						</th>
+					</tr>
+				</thead>
+				<tbody class="allrides-body">
+						<tr>
+                            <td><%= ride.first_name%></td>
+                            <td><%= ride.last_name%></td>
+                            <td><%= ride.phone_number %></td>
+                            <td><%= ride.email%></td>
+						</tr>
+				</tbody>
+			</table>
 		</section>
 	</main>
 
