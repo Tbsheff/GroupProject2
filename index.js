@@ -462,62 +462,6 @@ app.post('/delete-ride', isAuthenticated, (req, res) => {
 });
 
 
-// app.get('/accounts', isAuthenticated, async (req, res) => {
-//     try {
-//         // Grab the student_id
-//         let studentId = req.session.user.id;
-
-//         // Extract page and perPage parameters from the query string, default to 1 and PAGE_SIZE
-//         const page = parseInt(req.query.page, 10) || 1;
-//         const perPage = parseInt(req.query.perPage, 10) || PAGE_SIZE;
-//         const offset = (page - 1) * perPage;
-
-//         const accountResults = await knex
-//             .select(
-//                 's.student_id',
-//                 's.first_name',
-//                 's.last_name',
-//                 's.city',
-//                 's.state',
-//                 's.zip',
-//                 's.email',
-//                 's.phone_number',
-//                 'sec.username'
-//             )
-//             .from('student as s')
-//             .join('security as sec', 'sec.student_id', 's.student_id')
-//             .where('s.student_id', studentId);
-
-//         const [joinedRides, hostedRides] = await Promise.all([
-//             knex('student_ride')
-//                 .join('ride', 'student_ride.ride_id', '=', 'ride.ride_id')
-//                 .where('student_ride.student_id', studentId)
-//                 .select('ride.*', knex.raw("'joined' as rideType"))
-//                 .limit(perPage)
-//                 .offset(offset),
-
-//             knex('ride')
-//                 .where({ student_driver: studentId })
-//                 .select('*', knex.raw("'hosted' as rideType"))
-//                 .limit(perPage)
-//                 .offset(offset),
-//         ]);
-
-//         const allRides = [...joinedRides, ...hostedRides].map(ride => ({
-//             ...ride,
-//             formattedDateLeaving: formatDate(ride.date_leaving),
-//             formattedTimeLeaving: formatTime(ride.time_leaving),
-//             isDriver: ride.student_driver === studentId,
-//         }));
-
-//         res.render('account-copy', { allAccounts: accountResults, rides: allRides, user: req.session.user });
-
-//     } catch (error) {
-//         // Handle errors appropriately
-//         console.error(error);
-//         res.status(500).send('Internal Server Error');
-//     }
-// });
 
 
 app.listen(port, () => console.log("Server is running"));
