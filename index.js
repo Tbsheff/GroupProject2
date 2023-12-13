@@ -308,17 +308,21 @@ app.get('/account', isAuthenticated, (req, res) => {
 app.get('/ride-Receipt', isAuthenticated, (req, res) => {
     let rideId = req.query.rideId;
 
+    //joining to grab driver information
     knex('ride')
-        .where({ ride_id: rideId })
-        .first()
+        .join('student', 'ride.student_driver', 'student.student_id')
+        .where('ride.ride_id', rideId)
+        .first('ride.*', 'student.first_name', 'student.last_name', 'student.phone_number', 'student.email')
         .then(ride => {
-            //format the date/time
+
+            //format date/time
             const formattedRide = {
                 ...ride,
                 formattedDateLeaving: formatDate(ride.date_leaving),
                 formattedTimeLeaving: formatTime(ride.time_leaving)
             };
-            //render up the page 
+            
+            //render the receipt page
             res.render('rideReceipt', { ride: formattedRide, user: req.session.user });
         })
 });
