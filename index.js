@@ -322,6 +322,26 @@ app.get('/account', isAuthenticated, (req, res) => {
     })
 });
 
+app.get('/ride-Receipt', isAuthenticated, (req, res) => {
+    let rideId = req.query.rideId;
+
+    knex('ride')
+        .where({ ride_id: rideId })
+        .first()
+        .then(ride => {
+            if (!ride) {
+                return res.status(404).send('Ride not found.');
+            }
+            const formattedRide = {
+                ...ride,
+                formattedDateLeaving: formatDate(ride.date_leaving),
+                formattedTimeLeaving: formatTime(ride.time_leaving)
+            };
+
+            res.render('rideReceipt', { ride: formattedRide, user: req.session.user });
+        })
+});
+
 
 app.post('/modify-user', isAuthenticated, (req, res) => {
     console.log(req.body);
