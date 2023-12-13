@@ -142,8 +142,9 @@ End Fixed Navigation
 							Spots Remaining
 						</th>
 						<th>
-							Join Ride
+							Ride Status
 						</th>
+
 
 					</tr>
 				</thead>
@@ -161,7 +162,10 @@ End Fixed Navigation
 								<% if (allRides[iCount].isDriver) { %>
 									<span>Your Ride</span>
 								<% } else if (allRides[iCount].hasjoined) { %>
-									<span>Already Joined</span>
+									<form class="leave-ride-form" action="/leave-ride" method="post">
+										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+										<input type="submit" value="Leave Ride" class="edit-btn">
+									</form>
 								<% } else { %>
 									<form class="join-ride-form" action="/join-ride" method="post">
 										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
@@ -169,6 +173,7 @@ End Fixed Navigation
 									</form>
 								<% } %>
 							</td>
+							
 						</tr>
 					<% } %>
 				</tbody>
