@@ -128,7 +128,7 @@ a:hover {
 }
 
 .section {
-  padding: 100px 0;
+  padding-top: 100px;
 }
 
 .btn:focus {
@@ -137,10 +137,6 @@ a:hover {
 
 #home {
   position: relative;
-}
-
-.section {
-  padding: 100px 0;
 }
 
 .section-sm {
@@ -2596,8 +2592,8 @@ form .edit-btn:hover {
 
 .toggle-button-wrapper {
   position: absolute;
-  left: 1rem;
-  top: 50%;
+  left: 4%;
+  top: 33%;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -2605,7 +2601,8 @@ form .edit-btn:hover {
 
 
 .flex-container {
-  margin-right: 5%;
+  min-width: 60%;
+  margin-right: 3%;
 }
 
 #main-account {
@@ -2613,5 +2610,25 @@ form .edit-btn:hover {
 }
 
 #accountDetails {
-  margin-right: 2rem;
+  margin-right: 10%;
+}
+
+.toggle-image {
+  height: 2rem;
+  width: 2rem;
+}
+
+.account-toggles {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.toggle-p {
+  cursor: pointer;
+}
+
+.align-p-center {
+  text-align: center;
+  margin-top: 1rem;
 }
