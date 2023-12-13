@@ -117,70 +117,52 @@ End Fixed Navigation
 		<section class="service-2 section">
 			<h2>Available Rides</h2>
 
-			<table class="styled-table">
-				<thead>
-					<tr>
-						<th>
-							Start City
-						</th>
-						<th>
-							Start State
-						</th>
-						<th>
-							Time Leaving
-						</th>
-						<th>
-							Date Leaving
-						</th>
-						<th>
-							End City
-						</th>
-						<th>
-							End State
-						</th>
-						<th>
-							Spots Remaining
-						</th>
-						<th>
-							Ride Status
-						</th>
-
-
-					</tr>
-				</thead>
-				<tbody class="allrides-body">
-					<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
-						<tr>
-							<td><%= allRides[iCount].start_city %></td>
-							<td><%= allRides[iCount].start_state %></td>
-							<td><%= allRides[iCount].formattedTimeLeaving %></td>
-							<td><%= allRides[iCount].formattedDateLeaving %></td>
-							<td><%= allRides[iCount].end_city %></td>
-							<td><%= allRides[iCount].end_state %></td>
-							<td><%= allRides[iCount].spots_remaining %></td>
-							<td>
-								<% if (allRides[iCount].isDriver) { %>
-									<form class="delete-ride-form" action="/delete-ride" method="post">
-										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
-										<input type="submit" value="Delete Ride" class="edit-btn">
-									</form>
+			<div class="grid-container">
+				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+					<div class="grid-item">
+						<div><strong>Start City:</strong>
+							<%= allRides[iCount].start_city %>
+						</div>
+						<div><strong>Start State:</strong>
+							<%= allRides[iCount].start_state %>
+						</div>
+						<div><strong>Time Leaving:</strong>
+							<%= allRides[iCount].formattedTimeLeaving %>
+						</div>
+						<div><strong>Date Leaving:</strong>
+							<%= allRides[iCount].formattedDateLeaving %>
+						</div>
+						<div><strong>End City:</strong>
+							<%= allRides[iCount].end_city %>
+						</div>
+						<div><strong>End State:</strong>
+							<%= allRides[iCount].end_state %>
+						</div>
+						<div><strong>Spots Remaining:</strong>
+							<%= allRides[iCount].spots_remaining %>
+						</div>
+						<div class="ride-action">
+							<% if (allRides[iCount].isDriver) { %>
+								<form class="delete-ride-form" action="/delete-ride" method="post">
+									<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+									<input type="submit" value="Delete Ride" class="edit-btn">
+								</form>
 								<% } else if (allRides[iCount].hasjoined) { %>
 									<form class="leave-ride-form" action="/leave-ride" method="post">
 										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
 										<input type="submit" value="Leave Ride" class="edit-btn">
 									</form>
-								<% } else { %>
-									<form class="join-ride-form" action="/join-ride" method="post">
-										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
-										<input type="submit" value="Join Ride" class="edit-btn">
-									</form>
-								<% } %>
-							</td>
-							
-						</tr>
+									<% } else { %>
+										<form class="join-ride-form" action="/join-ride" method="post">
+											<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+											<input type="submit" value="Join Ride" class="edit-btn">
+										</form>
+										<% } %>
+						</div>
+					</div>
 					<% } %>
-				</tbody>
-			</table>
+			</div>
+
 		</section>
 
 
