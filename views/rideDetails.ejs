@@ -120,28 +120,28 @@ End Fixed Navigation
 			<div class="grid-container">
 				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
 					<div class="grid-item">
-						<div><strong>Start City:</strong>
+						<div class="grid-detail"><strong>Origin City:</strong>
 							<%= allRides[iCount].start_city %>
 						</div>
-						<div><strong>Start State:</strong>
+						<div class="grid-detail"><strong>Origin State:</strong>
 							<%= allRides[iCount].start_state %>
 						</div>
-						<div><strong>Time Leaving:</strong>
+						<div class="grid-detail"><strong>Departure Time:</strong>
 							<%= allRides[iCount].formattedTimeLeaving %>
 						</div>
-						<div><strong>Date Leaving:</strong>
+						<div class="grid-detail"><strong>Departure Date:</strong>
 							<%= allRides[iCount].formattedDateLeaving %>
 						</div>
-						<div><strong>End City:</strong>
+						<div class="grid-detail"><strong>Destination City:</strong>
 							<%= allRides[iCount].end_city %>
 						</div>
-						<div><strong>End State:</strong>
+						<div class="grid-detail"><strong>Destination State:</strong>
 							<%= allRides[iCount].end_state %>
 						</div>
-						<div><strong>Spots Remaining:</strong>
+						<div class="grid-detail"><strong>Spots Remaining:</strong>
 							<%= allRides[iCount].spots_remaining %>
 						</div>
-						<div class="ride-action">
+						<div class="grid-detail ride-action">
 							<% if (allRides[iCount].isDriver) { %>
 								<form class="delete-ride-form" action="/delete-ride" method="post">
 									<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
@@ -162,6 +162,7 @@ End Fixed Navigation
 					</div>
 					<% } %>
 			</div>
+
 
 		</section>
 

@@ -2626,6 +2626,7 @@ form .edit-btn:hover {
 
 .flex-container {
   min-width: 60%;
+  max-width: 75%;
   margin-right: 3%;
 }
 

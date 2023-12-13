@@ -117,6 +117,8 @@ h2 {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
     padding: 20px;
+    max-width: 90%;
+    margin: auto;
 }
 
 .grid-item {
@@ -132,6 +134,16 @@ h2 {
 
 .ride-action {
     text-align: center;
+}
+
+.grid-detail {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
 }
 
 @media screen and (min-width: 768px) {

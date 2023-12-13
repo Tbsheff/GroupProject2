@@ -5,63 +5,52 @@
     </div>
 
     <% if (rides.length===0) { %>
-        <p class="align-p-center">No rides found.</p>
+        <p>No rides found.</p>
         <% } else { %>
 
-            <table class="table-style" id="survey-results-table">
-                <thead>
-                    <tr>
-                        <th>Ride ID</th>
-                        <th>Start State</th>
-                        <th>Start City</th>
-                        <th>End State</th>
-                        <th>End City</th>
-                        <th>Leave Date</th>
-                        <th>Leave Time</th>
-                        <th>Ride Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% for (let iCount=0; iCount < rides.length; iCount++) { %>
-                        <tr>
-                            <td>
-                                <%= rides[iCount].ride_id %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].start_state %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].start_city %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].end_state %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].end_city %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].formattedDateLeaving %>
-                            </td>
-                            <td>
-                                <%= rides[iCount].formattedTimeLeaving %>
-                            </td>
-                            <td>
-                                <% if (rides[iCount].isDriver) { %>
-                                    <form class="delete-ride-form" action="/delete-ride" method="post">
+            <div class="grid-container">
+                <% for (let iCount=0; iCount < rides.length; iCount++) { %>
+                    <div class="grid-item">
+                        <div class="grid-detail"><strong>Ride ID:</strong>
+                            <%= rides[iCount].ride_id %>
+                        </div>
+                        <div class="grid-detail"><strong>Origin City:</strong>
+                            <%= rides[iCount].start_city %>
+                        </div>
+                        <div class="grid-detail"><strong>Origin State:</strong>
+                            <%= rides[iCount].start_state %>
+                        </div>
+
+                        <div class="grid-detail"><strong>Destination City:</strong>
+                            <%= rides[iCount].end_city %>
+                        </div>
+                        <div class="grid-detail"><strong>Destination State:</strong>
+                            <%= rides[iCount].end_state %>
+                        </div>
+
+                        <div class="grid-detail"><strong>Departure Date:</strong>
+                            <%= rides[iCount].formattedDateLeaving %>
+                        </div>
+                        <div class="grid-detail"><strong>Departure Time:</strong>
+                            <%= rides[iCount].formattedTimeLeaving %>
+                        </div>
+                        <div class="grid-detail ride-action">
+                            <% if (rides[iCount].isDriver) { %>
+                                <form class="delete-ride-form" action="/delete-ride" method="post">
+                                    <input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+                                    <input type="submit" value="Delete Ride" class="edit-btn">
+                                </form>
+                                <% } else { %>
+                                    <form class="leave-ride-form" action="/leave-rideAccount" method="post">
                                         <input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
-                                        <input type="submit" value="Delete Ride" class="edit-btn">
+                                        <input type="submit" value="Leave Ride" class="edit-btn">
                                     </form>
-                                    <% } else { %>
-                                        <form class="leave-ride-form" action="/leave-rideAccount" method="post">
-                                            <input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
-                                            <input type="submit" value="Leave Ride" class="edit-btn">
-                                        </form>
-                                        <% } %>
-                            </td>
-                        </tr>
-                        <% } %>
-                </tbody>
-            </table>
+                                    <% } %>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>
+
 </section>
 
 <% } %>
