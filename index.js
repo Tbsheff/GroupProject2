@@ -139,6 +139,8 @@ app.post("/login", (req, res) => {
 
 
 app.get("/rides", isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+
     knex.select(
         'r.ride_id',
         'r.start_state',
@@ -152,28 +154,39 @@ app.get("/rides", isAuthenticated, (req, res) => {
         'r.end_zip',
         'r.max_students',
         knex.raw('COUNT(sr.student_id) AS current_students'),
-        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining')
+        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining'),
+        //determines if user has joined the ride or not
+        knex.raw('CASE WHEN EXISTS (SELECT 1 FROM student_ride WHERE student_id = ? AND ride_id = r.ride_id) THEN true ELSE false END as hasjoined', [studentId]),
+        //determines if the user is the ride host or not
+        knex.raw('CASE WHEN r.student_driver = ? THEN true ELSE false END as isDriver', [studentId])
     )
-        .from('ride as r')
-        .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
-        .groupBy('r.ride_id')
-        .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
-        .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
-        .then(rides => {
-            const formattedRides = rides.map(ride => ({
+    .from('ride as r')
+    .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
+    .groupBy('r.ride_id')
+    .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
+    .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
+    .then(rides => {
+        const formattedRides = rides.map(ride => {
+
+            //setting isDriver to ensure both are string
+            const isDriver = String(ride.student_driver) === String(studentId);
+
+            return {
                 ...ride,
                 formattedDateLeaving: formatDate(ride.date_leaving),
-                formattedTimeLeaving: formatTime(ride.time_leaving)
-            }));
-            console.log(formattedRides);
-            res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
-        })
+                formattedTimeLeaving: formatTime(ride.time_leaving),
+                isDriver: isDriver
+            };
+        });
+        res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
+    });
+});
 
-}
-);
 
-app.get("/newRide", (req, res) =>
-    res.render("addRide", { user: req.session.user }));
+
+app.get("/newRide", (req, res) => {
+    res.render("addRide", { user: req.session.user, userId: req.session.user.id });
+});
 
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
@@ -233,43 +246,6 @@ app.post("/signup", (req, res) => {
     });
 });
 
-
-app.get("/joinride/:ride_id", (req, res) => {
-    let rideId = req.params.ride_id;
-
-    knex.select(
-        'r.ride_id',
-        'r.start_state',
-        'r.start_city',
-        'r.start_zip',
-        'r.student_driver',
-        'r.date_leaving',
-        'r.time_leaving',
-        'r.end_city',
-        'r.end_state',
-        'r.end_zip',
-        'r.max_students',
-        knex.raw('COUNT(sr.student_id) AS current_students'),
-        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining')
-    )
-        .from('ride as r')
-        .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
-        .where('r.ride_id', '=', rideId)  // Use the variable instead of req.params
-        .groupBy('r.ride_id')
-        .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
-        .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
-        .then(rides => {
-            const formattedRides = rides.map(ride => ({
-                ...ride,
-                formattedDateLeaving: formatDate(ride.date_leaving),
-                formattedTimeLeaving: formatTime(ride.time_leaving)
-            }));
-
-            console.log(formattedRides);
-            res.render("joinRide", { ride: formattedRides, user: req.session.user });
-        });
-});
-
 // log out of session
 app.get('/logout', (req, res) => {
     // Clears session to log the user out
@@ -281,7 +257,7 @@ app.get('/logout', (req, res) => {
     });
 });
 
-
+//creates route for page to display account info + joined/hosted rides
 app.get('/account', isAuthenticated, (req, res) => {
     //grab the student_id
     let studentId = req.session.user.id;
@@ -301,22 +277,50 @@ app.get('/account', isAuthenticated, (req, res) => {
     .join('security as sec', 'sec.student_id', 's.student_id')
     .where('s.student_id', studentId)
     .then(accountResults => {
-        //grabbing the "joined ride" info for the account
+        //grab joined rides
         return knex('student_ride')
             .join('ride', 'student_ride.ride_id', '=', 'ride.ride_id')
             .where('student_ride.student_id', studentId)
-            .select('ride.*')
-            .then(ridesResults => {
-                //formatting the time/date aspects
-                const formattedRides = ridesResults.map(ride => ({
-                    ...ride,
-                    formattedDateLeaving: formatDate(ride.date_leaving),
-                    formattedTimeLeaving: formatTime(ride.time_leaving)
-                }));
+            .select('ride.*', knex.raw("'joined' as rideType"))
+            .then(joinedRides => {
+                //grab hosted rides
+                return knex('ride')
+                    .where({ student_driver: studentId })
+                    .select('*', knex.raw("'hosted' as rideType"))
+                    .then(hostedRides => {
+                        //combine
+                        const allRides = [...joinedRides, ...hostedRides].map(ride => {
+                            return {
+                                ...ride,
+                                formattedDateLeaving: formatDate(ride.date_leaving),
+                                formattedTimeLeaving: formatTime(ride.time_leaving),
+                                isDriver: ride.student_driver === studentId
+                            };
+                        });
 
-                res.render('account', { allAccounts: accountResults, rides: formattedRides, user: req.session.user });
+                        res.render('account', { allAccounts: accountResults, rides: allRides, user: req.session.user });
+                    });
             });
-    })
+    });
+});
+
+//creating get for the ridereceipt page
+app.get('/ride-Receipt', isAuthenticated, (req, res) => {
+    let rideId = req.query.rideId;
+
+    knex('ride')
+        .where({ ride_id: rideId })
+        .first()
+        .then(ride => {
+            //format the date/time
+            const formattedRide = {
+                ...ride,
+                formattedDateLeaving: formatDate(ride.date_leaving),
+                formattedTimeLeaving: formatTime(ride.time_leaving)
+            };
+            //render up the page 
+            res.render('rideReceipt', { ride: formattedRide, user: req.session.user });
+        })
 });
 
 
@@ -384,27 +388,61 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
 //logic for passing user information to the database when they join a ride
 app.post('/join-ride', isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
-    let rideId = req.body.ride_id; 
+    let rideId = req.body.ride_id;
 
-    //check if the student has already joined the ride
     knex('student_ride')
-        .where({ student_id: studentId, ride_id: rideId })
-        .first()
-        .then(existingRecord => {
-            if (existingRecord) {
-                return res.status(400).send('You have already joined this ride.');
-            }
-
-            //if not already joined, insert the new record
-            return knex('student_ride')
-                .insert({ student_id: studentId, ride_id: rideId });
-        })
-        //redirect back to ride view page 
+        .insert({ student_id: studentId, ride_id: rideId })
         .then(() => {
-            res.redirect('/rides'); 
+            res.redirect(`/ride-Receipt?rideId=${rideId}`);
         })
 });
 
+//logic for deleting user info from database when leaving a ride
+app.post('/leave-ride', isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id;
+
+    knex('student_ride')
+        .where({ student_id: studentId, ride_id: rideId })
+        .del()
+        .then(() => {
+            res.redirect(`/rides`); // Redirecting to a page that lists available rides or a confirmation page
+        })
+});
+
+//leave ride logic specifically to redirect back onto the account page
+app.post('/leave-rideAccount', isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id;
+
+    knex('student_ride')
+        .where({ student_id: studentId, ride_id: rideId })
+        .del()
+        .then(() => {
+            res.redirect(`/account`);
+        })
+});
+
+//logic to allow users to delete a ride they hosted
+app.post('/delete-ride', isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+    let rideId = req.body.ride_id;
+
+    knex.transaction(async trx => {
+        try {
+            //delete all in student_ride table
+            await trx('student_ride').where('ride_id', rideId).del();
+
+            //delete ride
+            await trx('ride').where({ 'ride_id': rideId, 'student_driver': studentId }).del();
+
+            res.redirect('/account');
+        } catch (err) {
+            console.error(err);
+            res.status(500).send("Error deleting the ride.");
+        }
+    });
+});
 
 
 app.listen(port, () => console.log("Server is running"));

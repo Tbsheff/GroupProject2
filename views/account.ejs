@@ -164,10 +164,11 @@ End Fixed Navigation
 								<th>Ride ID</th>
 								<th>Start State</th>
 								<th>Start City</th>
-								<th>Date Leaving</th>
-								<th>Time Leaving</th>
-								<th>End City</th>
 								<th>End State</th>
+								<th>End City</th>
+								<th>Leave Date</th>
+								<th>Leave Time</th>
+								<th>Ride Status</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -193,6 +194,19 @@ End Fixed Navigation
 									</td>
 									<td>
 										<%= rides[iCount].formattedTimeLeaving %>
+									</td>
+									<td>
+										<% if (rides[iCount].isDriver) { %>
+											<form class="delete-ride-form" action="/delete-ride" method="post">
+												<input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+												<input type="submit" value="Delete Ride" class="edit-btn">
+											</form>
+										<% } else { %>
+											<form class="leave-ride-form" action="/leave-rideAccount" method="post">
+												<input type="hidden" name="ride_id" value="<%= rides[iCount].ride_id %>">
+												<input type="submit" value="Leave Ride" class="edit-btn">
+											</form>
+										<% } %>
 									</td>
 								</tr>
 								<% } %>
