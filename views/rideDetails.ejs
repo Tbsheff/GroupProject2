@@ -158,7 +158,9 @@ End Fixed Navigation
 							<td><%= allRides[iCount].end_state %></td>
 							<td><%= allRides[iCount].spots_remaining %></td>
 							<td>
-								<% if (allRides[iCount].hasjoined) { %>
+								<% if (allRides[iCount].isDriver) { %>
+									<span>Your Ride</span>
+								<% } else if (allRides[iCount].hasjoined) { %>
 									<span>Already Joined</span>
 								<% } else { %>
 									<form class="join-ride-form" action="/join-ride" method="post">

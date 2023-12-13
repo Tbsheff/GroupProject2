@@ -155,8 +155,10 @@ app.get("/rides", isAuthenticated, (req, res) => {
         'r.max_students',
         knex.raw('COUNT(sr.student_id) AS current_students'),
         knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining'),
-        //check to see if the user has joined a ride
-        knex.raw('CASE WHEN EXISTS (SELECT 1 FROM student_ride WHERE student_id = ? AND ride_id = r.ride_id) THEN true ELSE false END as hasjoined', [studentId])
+        //determines if user has joined the ride or not
+        knex.raw('CASE WHEN EXISTS (SELECT 1 FROM student_ride WHERE student_id = ? AND ride_id = r.ride_id) THEN true ELSE false END as hasjoined', [studentId]),
+        //determines if the user is the ride host or not
+        knex.raw('CASE WHEN r.student_driver = ? THEN true ELSE false END as isDriver', [studentId])
     )
     .from('ride as r')
     .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
@@ -164,19 +166,27 @@ app.get("/rides", isAuthenticated, (req, res) => {
     .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
     .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
     .then(rides => {
-        const formattedRides = rides.map(ride => ({
-            ...ride,
-            formattedDateLeaving: formatDate(ride.date_leaving),
-            formattedTimeLeaving: formatTime(ride.time_leaving)
-        }));
-        console.log(formattedRides);
+        const formattedRides = rides.map(ride => {
+
+            //setting isDriver to ensure both are string
+            const isDriver = String(ride.student_driver) === String(studentId);
+
+            return {
+                ...ride,
+                formattedDateLeaving: formatDate(ride.date_leaving),
+                formattedTimeLeaving: formatTime(ride.time_leaving),
+                isDriver: isDriver
+            };
+        });
         res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
     });
 });
 
 
-app.get("/newRide", (req, res) =>
-    res.render("addRide", { user: req.session.user }));
+
+app.get("/newRide", (req, res) => {
+    res.render("addRide", { user: req.session.user, userId: req.session.user.id });
+});
 
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
@@ -236,43 +246,6 @@ app.post("/signup", (req, res) => {
     });
 });
 
-
-app.get("/joinride/:ride_id", (req, res) => {
-    let rideId = req.params.ride_id;
-
-    knex.select(
-        'r.ride_id',
-        'r.start_state',
-        'r.start_city',
-        'r.start_zip',
-        'r.student_driver',
-        'r.date_leaving',
-        'r.time_leaving',
-        'r.end_city',
-        'r.end_state',
-        'r.end_zip',
-        'r.max_students',
-        knex.raw('COUNT(sr.student_id) AS current_students'),
-        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining')
-    )
-        .from('ride as r')
-        .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
-        .where('r.ride_id', '=', rideId)  // Use the variable instead of req.params
-        .groupBy('r.ride_id')
-        .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
-        .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
-        .then(rides => {
-            const formattedRides = rides.map(ride => ({
-                ...ride,
-                formattedDateLeaving: formatDate(ride.date_leaving),
-                formattedTimeLeaving: formatTime(ride.time_leaving)
-            }));
-
-            console.log(formattedRides);
-            res.render("joinRide", { ride: formattedRides, user: req.session.user });
-        });
-});
-
 // log out of session
 app.get('/logout', (req, res) => {
     // Clears session to log the user out
@@ -322,6 +295,7 @@ app.get('/account', isAuthenticated, (req, res) => {
     })
 });
 
+//creating get for the ridereceipt page
 app.get('/ride-Receipt', isAuthenticated, (req, res) => {
     let rideId = req.query.rideId;
 
@@ -329,15 +303,13 @@ app.get('/ride-Receipt', isAuthenticated, (req, res) => {
         .where({ ride_id: rideId })
         .first()
         .then(ride => {
-            if (!ride) {
-                return res.status(404).send('Ride not found.');
-            }
+            //format the date/time
             const formattedRide = {
                 ...ride,
                 formattedDateLeaving: formatDate(ride.date_leaving),
                 formattedTimeLeaving: formatTime(ride.time_leaving)
             };
-
+            //render up the page
             res.render('rideReceipt', { ride: formattedRide, user: req.session.user });
         })
 });
