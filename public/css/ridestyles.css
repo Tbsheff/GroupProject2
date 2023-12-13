@@ -43,7 +43,7 @@ input {
 
 /* Style the submit button */
 input[type="submit"] {
-    background-color: #4caf50;
+    background-color: #28ABE3;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -55,7 +55,7 @@ input[type="submit"] {
 /* Add some hover effect to the submit button */
 input[type="submit"]:hover {
     background-color: white;
-    color: #4caf50;
+    color: #28ABE3;
 }
 
 h2 {
@@ -76,7 +76,7 @@ h2 {
     min-width: 400px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
-    border-radius: 8px;
+
 }
 
 .styled-table thead tr {
@@ -93,10 +93,10 @@ h2 {
     background-color: #f7f7f7;
 }
 
-.styled-table tbody tr:last-of-type {}
+.styled-table .allrides-body tr:last-of-type {}
 
-.styled-table tbody tr:hover {
-    background-color: #fc52305b;
+.styled-table .allrides-body tr:hover {
+    background-color: #30303622;
 }
 
 .styled-table tbody tr.active-row {
