@@ -148,39 +148,27 @@ End Fixed Navigation
 					</tr>
 				</thead>
 				<tbody>
-					<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
+					<% for (let iCount = 0; iCount < allRides.length; iCount++) { %>
 						<tr>
+							<td><%= allRides[iCount].start_city %></td>
+							<td><%= allRides[iCount].start_state %></td>
+							<td><%= allRides[iCount].formattedTimeLeaving %></td>
+							<td><%= allRides[iCount].formattedDateLeaving %></td>
+							<td><%= allRides[iCount].end_city %></td>
+							<td><%= allRides[iCount].end_state %></td>
+							<td><%= allRides[iCount].spots_remaining %></td>
 							<td>
-								<%= allRides[iCount].start_city %>
-							</td>
-							<td>
-								<%= allRides[iCount].start_state %>
-							</td>
-							<td>
-								<%= allRides[iCount].formattedTimeLeaving %>
-							</td>
-
-							<td>
-								<%= allRides[iCount].formattedDateLeaving %>
-							</td>
-
-							<td>
-								<%= allRides[iCount].end_city %>
-							</td>
-							<td>
-								<%= allRides[iCount].end_state %>
-							</td>
-							<td>
-								<%= allRides[iCount].spots_remaining%>
-							</td>
-							<td>
-								<form class="join-ride-form" action="/join-ride" method="post">
-									<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
-									<input type="submit" value="Join Ride" class="edit-btn">
-								</form>
+								<% if (allRides[iCount].hasjoined) { %>
+									<span>Already Joined</span>
+								<% } else { %>
+									<form class="join-ride-form" action="/join-ride" method="post">
+										<input type="hidden" name="ride_id" value="<%= allRides[iCount].ride_id %>">
+										<input type="submit" value="Join Ride" class="edit-btn">
+									</form>
+								<% } %>
 							</td>
 						</tr>
-						<% } %>
+					<% } %>
 				</tbody>
 			</table>
 		</section>

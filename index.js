@@ -139,6 +139,8 @@ app.post("/login", (req, res) => {
 
 
 app.get("/rides", isAuthenticated, (req, res) => {
+    let studentId = req.session.user.id;
+
     knex.select(
         'r.ride_id',
         'r.start_state',
@@ -152,25 +154,26 @@ app.get("/rides", isAuthenticated, (req, res) => {
         'r.end_zip',
         'r.max_students',
         knex.raw('COUNT(sr.student_id) AS current_students'),
-        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining')
+        knex.raw('(r.max_students - COUNT(sr.student_id) - 1) AS spots_remaining'),
+        //check to see if the user has joined a ride
+        knex.raw('CASE WHEN EXISTS (SELECT 1 FROM student_ride WHERE student_id = ? AND ride_id = r.ride_id) THEN true ELSE false END as hasjoined', [studentId])
     )
-        .from('ride as r')
-        .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
-        .groupBy('r.ride_id')
-        .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
-        .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
-        .then(rides => {
-            const formattedRides = rides.map(ride => ({
-                ...ride,
-                formattedDateLeaving: formatDate(ride.date_leaving),
-                formattedTimeLeaving: formatTime(ride.time_leaving)
-            }));
-            console.log(formattedRides);
-            res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
-        })
+    .from('ride as r')
+    .leftJoin('student_ride as sr', 'r.ride_id', 'sr.ride_id')
+    .groupBy('r.ride_id')
+    .having('r.max_students', '>', knex.raw('COUNT(sr.student_id)'))
+    .andHaving(knex.raw('(r.max_students - COUNT(sr.student_id) - 1)'), '>', 0)
+    .then(rides => {
+        const formattedRides = rides.map(ride => ({
+            ...ride,
+            formattedDateLeaving: formatDate(ride.date_leaving),
+            formattedTimeLeaving: formatTime(ride.time_leaving)
+        }));
+        console.log(formattedRides);
+        res.render("rideDetails", { allRides: formattedRides, user: req.session.user });
+    });
+});
 
-}
-);
 
 app.get("/newRide", (req, res) =>
     res.render("addRide", { user: req.session.user }));
@@ -384,24 +387,12 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
 //logic for passing user information to the database when they join a ride
 app.post('/join-ride', isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
-    let rideId = req.body.ride_id; 
+    let rideId = req.body.ride_id;
 
-    //check if the student has already joined the ride
     knex('student_ride')
-        .where({ student_id: studentId, ride_id: rideId })
-        .first()
-        .then(existingRecord => {
-            if (existingRecord) {
-                return res.status(400).send('You have already joined this ride.');
-            }
-
-            //if not already joined, insert the new record
-            return knex('student_ride')
-                .insert({ student_id: studentId, ride_id: rideId });
-        })
-        //redirect back to ride view page 
+        .insert({ student_id: studentId, ride_id: rideId })
         .then(() => {
-            res.redirect('/rides'); 
+            res.redirect(`/ride-Receipt?rideId=${rideId}`);
         })
 });
 
