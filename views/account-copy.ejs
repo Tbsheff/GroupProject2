@@ -113,26 +113,27 @@ Fixed Navigation
 End Fixed Navigation
 ==================================== -->
 
-	<main class="site-content" role="main">
+	<main class="site-content" role="main" id="main-account">
 
-		<div>
-			<button id="toggleButton" onclick="toggleSections()">My Account Details</button>
-			<button id="toggleButton2" onclick="toggleRides()">My Rides</button>
+		<div class="flex-container">
+			<div class="toggle-button-wrapper">
+				<button id="toggleButton" onclick="toggleSections()">My Account Details</button>
+				<button id="toggleButton2" onclick="toggleRides()">My Rides</button>
+			</div>
+
+			<section class="service-2 section">
+				<div id="accountDetails" class="account-section">
+					<!-- Render account details here -->
+					<%- include('account-details.ejs', { allAccounts: allAccounts, user: user }) %>
+				</div>
+				<div id="rides" class="account-section" style="display:none;">
+					<!-- Render rides here -->
+					<%- include('account-rides.ejs', { rides: rides, user: user }) %>
+				</div>
+
+
+			</section>
 		</div>
-
-		<section class="service-2 section">
-			<div id="accountDetails" class="account-section">
-				<!-- Render account details here -->
-				<%- include('account-details.ejs', { allAccounts: allAccounts, user: user }) %>
-			</div>
-			<div id="rides" class="account-section" style="display:none;">
-				<!-- Render rides here -->
-				<%- include('account-rides.ejs', { rides: rides, user: user }) %>
-			</div>
-
-
-		</section>
-
 
 
 	</main>

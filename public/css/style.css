@@ -2593,3 +2593,25 @@ form .edit-btn:hover {
   margin: 0 auto;
   padding: 0;
 }
+
+.toggle-button-wrapper {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+
+.flex-container {
+  margin-right: 5%;
+}
+
+#main-account {
+  align-content: flex-end;
+}
+
+#accountDetails {
+  margin-right: 2rem;
+}
