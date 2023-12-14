@@ -1,0 +1,13 @@
+.grid-item {
+    border-radius: 0;
+    width: 100%;
+    display: inline-flex;
+    justify-content: space-between;
+}
+
+.ride-receipt-grid {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: 300px;
+}

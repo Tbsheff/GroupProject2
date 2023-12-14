@@ -9,6 +9,9 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+let flash = require('connect-flash');
+app.use(flash());
+
 
 
 let path = require("path");
@@ -123,7 +126,7 @@ app.post("/login", (req, res) => {
                     // Login successful
                     req.session.user = { username: user.username, id: user.student_id };
                     console.log(req.session.user)
-                    res.redirect('/rides');
+                    res.redirect('/account');
 
                 } else {
                     // Passwords do not match
@@ -136,6 +139,7 @@ app.post("/login", (req, res) => {
             res.status(500).json({ error: error.message || error });
         });
 });
+
 app.get("/newRide", isAuthenticated, (req, res) => {
     res.render("addRide", { user: req.session.user, userId: req.session.user.id });
 });
@@ -184,15 +188,9 @@ app.get("/rides", isAuthenticated, (req, res) => {
         });
 });
 
-
-
-app.get("/newRide", (req, res) => {
-    res.render("addRide", { user: req.session.user, userId: req.session.user.id });
-});
-
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
-        res.redirect("/");
+        res.redirect("/account");
     })
 }
 );
@@ -240,7 +238,7 @@ app.post("/signup", (req, res) => {
         })
             .then(() => {
 
-                res.redirect("/"); // Redirect if the transaction is successful
+                res.redirect("/account"); // Redirect if the transaction is successful
             })
             .catch(error => {
                 res.status(500).json({ error }); // Handle errors
@@ -376,6 +374,17 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
                             });
                     });
             })
+                .then(() => {
+                    // Redirect to a new page after the transaction is successful
+                    res.redirect('/account');
+                })
+                .catch((error) => {
+                    // Handle any errors that occur during the transaction
+                    console.error(error);
+                    // Optionally, redirect to an error page or send an error response
+                    req.flash('alert', 'There was an error updating your account. Please try again.');
+                    res.redirect('/account');
+                });
 
         });
     }
@@ -400,6 +409,18 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
                         });
                 });
         })
+            .then(() => {
+                // Redirect to a new page after the transaction is successful
+                res.redirect('/account');
+            })
+            .catch((error) => {
+                // Handle any errors that occur during the transaction
+                console.error(error);
+                // Optionally, redirect to an error page or send an error response
+                req.flash('alert', 'There was an error updating your account. Please try again.');
+
+                res.redirect('/account');
+            });
 
     }
 });
@@ -416,19 +437,6 @@ app.post('/join-ride', isAuthenticated, (req, res) => {
         })
 });
 
-//logic for deleting user info from database when leaving a ride
-app.post('/leave-ride', isAuthenticated, (req, res) => {
-    let studentId = req.session.user.id;
-    let rideId = req.body.ride_id;
-
-    knex('student_ride')
-        .where({ student_id: studentId, ride_id: rideId })
-        .del()
-        .then(() => {
-            res.redirect(`/rides`); // Redirecting to a page that lists available rides or a confirmation page
-        })
-});
-
 //leave ride logic specifically to redirect back onto the account page
 app.post('/leave-rideAccount', isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
@@ -438,7 +446,7 @@ app.post('/leave-rideAccount', isAuthenticated, (req, res) => {
         .where({ student_id: studentId, ride_id: rideId })
         .del()
         .then(() => {
-            res.redirect(`/account`);
+            res.redirect(`/account#rides`);
         })
 });
 
@@ -455,7 +463,7 @@ app.post('/delete-ride', isAuthenticated, (req, res) => {
             //delete ride
             await trx('ride').where({ 'ride_id': rideId, 'student_driver': studentId }).del();
 
-            res.redirect('/account');
+            res.redirect('/account#rides-hosted');
         } catch (err) {
             console.error(err);
             res.status(500).send("Error deleting the ride.");
