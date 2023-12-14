@@ -296,7 +296,17 @@ app.get('/account', isAuthenticated, async (req, res) => {
             isDriver: ride.student_driver === studentId,
         }));
 
-        // Modify hosted rides
+        //get information of students who joined your ride
+        for (let ride of hostedRides) {
+            let joiningStudents = await knex('student_ride')
+                .join('student', 'student_ride.student_id', 'student.student_id')
+                .where('student_ride.ride_id', ride.ride_id)
+                .select('student.first_name', 'student.last_name', 'student.phone_number', 'student.email');
+        
+            //stick joined students into an array for easy access
+            ride.joiningStudents = joiningStudents || [];
+        }
+        
         let modifiedHostedRides = hostedRides.map(ride => ({
             ...ride,
             formattedDateLeaving: formatDate(ride.date_leaving),
