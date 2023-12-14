@@ -136,7 +136,9 @@ app.post("/login", (req, res) => {
             res.status(500).json({ error: error.message || error });
         });
 });
-
+app.get("/newRide", isAuthenticated, (req, res) => {
+    res.render("addRide", { user: req.session.user, userId: req.session.user.id });
+});
 
 app.get("/rides", isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
