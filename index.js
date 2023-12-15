@@ -435,37 +435,35 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
     }
 });
 
-app.post('/modify-ride-info', isAuthenticated, (req, res) => {
+app.post('/modify-ride-info/:rideId', isAuthenticated, (req, res) => {
     console.log(req.body);
+    const rideId = req.params.rideId; 
 
-    // Begin a database transaction
     knex.transaction(trx => {
         return trx('ride')
-            .where('student_driver', req.session.user.id) // Assuming driver_id is stored in the session
+            .where({
+                'student_driver': req.session.user.id, 
+                'ride_id': rideId 
+            })
             .update({
                 // Update the ride details based on the request body
                 start_state: req.body.start_state,
                 start_city: req.body.start_city,
                 end_state: req.body.end_state,
-                formattedDateLeaving: req.body.formattedDateLeaving,
-                formattedTimeLeaving: req.body.formattedTimeLeaving
+                end_city: req.body.end_city,
+                formattedDateLeaving: req.body.leave_date, 
+                formattedTimeLeaving: req.body.leave_time 
             });
     })
     .then(() => {
-        // Redirect to a confirmation page or back to the ride list after successful update
         res.redirect('/account-driving');
     })
     .catch((error) => {
-        // Handle errors that occur during the transaction
         console.error(error);
-        // Redirect to an error page or send an error response
         req.flash('alert', 'There was an error updating the ride information. Please try again.');
-        res.redirect('/modify-ride-info');
+        res.redirect('/modify-ride-info/' + rideId); 
     });
 });
-
-
-
 
 
 //logic for passing user information to the database when they join a ride
