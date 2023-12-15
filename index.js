@@ -190,7 +190,7 @@ app.get("/rides", isAuthenticated, (req, res) => {
 
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
-        res.redirect("/account");
+        res.redirect("/account#rides-hosted");
     })
 }
 );
