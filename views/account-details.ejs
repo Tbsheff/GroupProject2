@@ -8,6 +8,7 @@ Group Project 3 -->
 <h2>Account Details</h2>
 <% for (let iCount=0; iCount < allAccounts.length; iCount++) { %>
 
+<!-- Modify user form -->
     <div class="modify-user">
         <form action="/modify-user" method="post">
             <label for="">First Name</label>
@@ -26,6 +27,7 @@ Group Project 3 -->
             </div>
         </form>
 
+        <!-- Delete button -->
         <form id="deleteLogoutUserForm<%= iCount %>" action="/delete-logout-user/<%= allAccounts[iCount].user_id %>"
             method="POST" class="edit-td" onsubmit="return confirmDeleteLogout(<%= iCount %>);">
             <input type="submit" name="Delete" value="Delete Account" class="btn delete-btn" id="delete-account" />
@@ -33,6 +35,7 @@ Group Project 3 -->
         <% } %>
     </div>
     <script>
+        // confirm delete user
         function confirmDeleteLogout(index) {
             // Display a confirmation dialog
             var confirmation = confirm("Are you sure you want to delete the user and log out?");

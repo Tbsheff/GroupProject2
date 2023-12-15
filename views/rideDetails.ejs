@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!-- 
+Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
+Section 2
+Group 2-11
+Group Project 3 -->
 <html lang="en">
 <head>
 
@@ -72,7 +77,7 @@ Fixed Navigation
 					aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-
+				<!-- navigation -->
 				<div class="collapse navbar-collapse" id="navigation">
 					<ul class="navbar-nav ml-auto text-center">
 						<li class="nav-item ">
@@ -117,10 +122,13 @@ End Fixed Navigation
 		<section class="service-2 section">
 			<h2>Available Rides</h2>
 			<!--only display NOT joined/hosted rides-->
+			<!-- GRid container of rides -->
 			<div class="grid-container">
+				<!-- loop through all rides -->
 				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
 					<% if (!allRides[iCount].isDriver && !allRides[iCount].hasjoined) { %>
 						<div class="grid-item">
+							<!-- add grid items -->
 							<div class="grid-detail"><strong>Origin City:</strong>
 								<%= allRides[iCount].start_city %>
 							</div>

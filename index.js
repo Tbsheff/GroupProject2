@@ -1,5 +1,5 @@
-let express = require("express");
-let session = require('express-session');
+let express = require("express"); // require express
+let session = require('express-session'); // session middleware
 let app = express();
 
 app.use(session({
@@ -7,16 +7,16 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
-}));
+})); // session middleware setup
 
 let flash = require('connect-flash');
 app.use(flash());
 
 
 
-let path = require("path");
+let path = require("path"); // require path
 
-let knex = require("knex")({
+let knex = require("knex")({ // initialize knex and database connection
     client: "pg",
     connection: {
         host: "cougar-cruiser.postgres.database.azure.com",
@@ -28,7 +28,7 @@ let knex = require("knex")({
     debug: true
 });
 
-let bcrypt = require('bcrypt');
+let bcrypt = require('bcrypt'); // require bcrypt for password hashing
 let saltRounds = 10;
 
 function formatDate(dateString) {
@@ -46,7 +46,7 @@ function formatDate(dateString) {
         month: '2-digit',
         day: '2-digit',
     });
-}
+} // function to format date
 
 function formatTime(timeString) {
     try {
@@ -69,7 +69,7 @@ function formatTime(timeString) {
     } catch (error) {
         return `Invalid Time: ${timeString}`;
     }
-}
+} // function to format time
 
 function isAuthenticated(req, res, next) {
     console.log(req.session.user);
@@ -80,7 +80,7 @@ function isAuthenticated(req, res, next) {
     }
     // User is not authenticated
     res.redirect('/login');
-}
+} // function to check if user is authenticated
 
 
 
@@ -89,18 +89,18 @@ function isAuthenticated(req, res, next) {
 //Changed port to specify what environment our application will be running on
 const port = process.env.PORT || 3001;
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // set up express to parse urlencoded
 
-app.set("view engine", "ejs");
+app.set("view engine", "ejs"); // set up view engine
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public"))); // set up express to serve static files
 
-app.get("/", (req, res) => res.render("index", { user: req.session.user }));
+app.get("/", (req, res) => res.render("index", { user: req.session.user })); // set up route for index page
 
-app.get("/login", (req, res) =>
+app.get("/login", (req, res) => // set up route for login page
     res.render("login", { user: req.session.user }));
 
-app.post("/login", (req, res) => {
+app.post("/login", (req, res) => { // set up route for login page submission
     // Extract the username and plain text password from the request
     const { username, password } = req.body;
 
@@ -142,8 +142,9 @@ app.post("/login", (req, res) => {
 
 app.get("/newRide", isAuthenticated, (req, res) => {
     res.render("addRide", { user: req.session.user, userId: req.session.user.id });
-});
+}); // set up route for newRide page
 
+// set up route for rideDetails page
 app.get("/rides", isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
 
@@ -188,6 +189,7 @@ app.get("/rides", isAuthenticated, (req, res) => {
         });
 });
 
+// set up route for newRide page submission
 app.post("/newRide", (req, res) => {
     knex("ride").insert(req.body).then(rides => {
         res.redirect("/account#rides-hosted");
@@ -195,10 +197,11 @@ app.post("/newRide", (req, res) => {
 }
 );
 
+// route for signup page
 app.get("/signup", (req, res) =>
     res.render("signUp", { user: req.session.user }));
 
-
+// set up route for signup page submission
 app.post("/signup", (req, res) => {
 
     // Extract the plain text password from the request
@@ -350,7 +353,7 @@ app.get('/ride-Receipt', isAuthenticated, (req, res) => {
         })
 });
 
-
+// route to modify user information
 app.post('/modify-user', isAuthenticated, (req, res) => {
     console.log(req.body);
     if (req.body.password != "") {
@@ -435,6 +438,8 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
     }
 });
 
+
+//route to modify ride information
 app.post('/modify-ride-info/:rideId', isAuthenticated, (req, res) => {
     console.log(req.body);
     let rideId = req.params.rideId;
@@ -523,5 +528,5 @@ app.post('/delete-ride/:ride_id', isAuthenticated, (req, res) => {
 
 
 
-
+// app listening on port 3001
 app.listen(port, () => console.log("Server is running"));

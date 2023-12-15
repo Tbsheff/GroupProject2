@@ -1,9 +1,16 @@
+<!-- 
+Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
+Section 2
+Group 2-11
+Group Project 3 -->
+
 <section>
     <!--Header for user rides table-->
     <div style="text-align: center;">
         <h2 style="margin-bottom: 0;">My Posted Rides</h2>
     </div>
 
+    <!-- Grid to display rides -->
     <% if (hostedRides.length===0) { %>
         <p class="align-p-center">No Rides Posted Yet.</p>
         <% } else { %>
@@ -48,6 +55,8 @@
                                                 <% } %>
                             </div>
                         </div>
+
+                        <!--Delete ride button -->
                         <div class="grid-detail" style="    display: inline-flex; justify-content: space-around;">
 
                             <form id="deleteRideForm<%= iCount %>" action="/delete-ride/<%= ride.ride_id %>"
@@ -83,7 +92,7 @@
                     <% }) %>
             </div>
 
-
+            <!-- Function to for toggle -->
             <script>
                 function toggleEditRow(rowId) {
                     var row = document.getElementById(rowId);
