@@ -501,9 +501,9 @@ app.post('/leave-rideAccount', isAuthenticated, (req, res) => {
 });
 
 //logic to allow users to delete a ride they hosted
-app.post('/delete-ride', isAuthenticated, (req, res) => {
+app.post('/delete-ride/:ride_id', isAuthenticated, (req, res) => {
     let studentId = req.session.user.id;
-    let rideId = req.body.ride_id;
+    let rideId = req.params.ride_id;
 
     knex.transaction(async trx => {
         try {
