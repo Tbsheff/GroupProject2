@@ -34,17 +34,19 @@
                         </div>
                         <div class="grid-detail" style="gap: 1.25rem;"><strong>Riders:</strong>
                             <!-- Display riders -->
-                            <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
-                                <% ride.joiningStudents.forEach(student=> { %>
-                                    <p style="text-align: right;">
-                                        <%= student.first_name %>
-                                            <%= student.last_name %> | <%= student.phone_number %> | <%= student.email
-                                                        %>
-                                    </p>
-                                    <% }) %>
-                                        <% } else { %>
-                                            <p style="text-align: right;">No students have joined yet.</p>
-                                            <% } %>
+                            <div>
+                                <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
+                                    <% ride.joiningStudents.forEach(student=> { %>
+                                        <p style="text-align: right;">
+                                            <%= student.first_name %>
+                                                <%= student.last_name %> | <%= student.phone_number %> | <%=
+                                                            student.email %>
+                                        </p>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <p style="text-align: right;">No students have joined yet.</p>
+                                                <% } %>
+                            </div>
                         </div>
                         <div class="grid-detail" style="    display: inline-flex; justify-content: space-around;">
 
