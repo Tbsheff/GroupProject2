@@ -2573,7 +2573,7 @@ section h2 {
 
 .edit-btn {
   transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out, color .15s ease-in-out;
-  background-color: #4caf50;
+  background-color: #28ABE3;
   color: white;
   border: none;
   border-radius: 4px;
@@ -2582,9 +2582,10 @@ section h2 {
   padding: 6px 12px;
 }
 
-form .edit-btn:hover {
+form .edit-btn:hover,
+.edit-btn:hover {
   background-color: white;
-  color: #4caf50;
+  color: #28ABE3;
   border: none;
 }
 
@@ -2695,4 +2696,20 @@ form .edit-btn:hover {
 .edit-td {
   align-items: center;
   display: flex;
+}
+
+#delete-ride {
+  margin: auto;
+  font-size: 1rem;
+  padding: 12px 24px;
+  width: fit-content;
+  margin-bottom: 0;
+  background-color: #ff0000b5;
+}
+
+.delete-ride-form {
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  align-items: flex-start;
 }

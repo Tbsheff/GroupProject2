@@ -1,10 +1,4 @@
-<!-- 
-Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
-Section 2
-Group 2-11
-Group Project 3 -->
-<section
->
+<section>
     <!--Header for user rides table-->
     <div style="text-align: center;">
         <h2 style="margin-bottom: 0;">My Posted Rides</h2>
@@ -13,7 +7,8 @@ Group Project 3 -->
     <% if (hostedRides.length===0) { %>
         <p class="align-p-center">No Rides Posted Yet.</p>
         <% } else { %>
-            <table class="table-style" id="survey-results-table">
+
+            <table class="table-style">
                 <thead>
                     <tr>
                         <th>Ride ID</th>
@@ -24,7 +19,7 @@ Group Project 3 -->
                         <th>Leave Date</th>
                         <th>Leave Time</th>
                         <th>Riders</th>
-                        <th>Ride Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,8 +46,7 @@ Group Project 3 -->
                             <td>
                                 <%= ride.formattedTimeLeaving %>
                             </td>
-                            <td>
-                                <!--fill rider info, if none display no riders yet-->
+                            <td><!-- Display riders -->
                                 <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
                                     <% ride.joiningStudents.forEach(student=> { %>
                                         <p>
@@ -62,18 +56,52 @@ Group Project 3 -->
                                         </p>
                                         <% }) %>
                                             <% } else { %>
-                                                <p>No students joined yet.</p>
+                                                <p>No students have joined yet.</p>
                                                 <% } %>
                             </td>
                             <td>
-                                <form class="delete-ride-form" action="/delete-ride" method="post">
-                                    <input type="hidden" name="ride_id" value="<%= ride.ride_id %>">
-                                    <input type="submit" value="Delete Ride" class="edit-btn">
+                                <button onclick="toggleEditRow('editRow<%= iCount %>')" class="btn edit-btn">Edit
+                                    Details</button>
+
+                            </td>
+                        </tr>
+                        <tr id="editRow<%= iCount %>" class="edit-row" style="display:none;">
+                            <td colspan="9">
+                                <form action="/update-ride/<%= ride.ride_id %>" method="post" class="add-ride-form">
+                                    <label>Start State: <input type="text" name="start_state"
+                                            value="<%= ride.start_state %>"></label>
+                                    <label>Start City: <input type="text" name="start_city"
+                                            value="<%= ride.start_city %>"></label>
+                                    <label>End State: <input type="text" name="end_state"
+                                            value="<%= ride.end_state %>"></label>
+                                    <label>End City: <input type="text" name="end_city"
+                                            value="<%= ride.end_city %>"></label>
+                                    <label>Change Departure Date: <input type="date" name="leave_date"
+                                            value="<%= ride.formattedDateLeaving %>"></label>
+                                    <label>Change Departure Time: <input type="time" name="leave_time"
+                                            value="<%= ride.formattedTimeLeaving %>"></label>
+                                    <input type="submit" value="Save Changes" class="btn edit-btn">
+                                </form>
+                                <form id="deleteRideForm<%= iCount %>" action="/delete-ride/<%= ride.ride_id %>"
+                                    method="post" class="delete-ride-form">
+                                    <input type="submit" value="Delete Ride" class="btn delete-btn" id="delete-ride">
                                 </form>
                             </td>
                         </tr>
                         <% }) %>
                 </tbody>
             </table>
+
+            <script>
+                function toggleEditRow(rowId) {
+                    var row = document.getElementById(rowId);
+                    if (row.style.display === "none") {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                }
+            </script>
+
             <% } %>
 </section>
