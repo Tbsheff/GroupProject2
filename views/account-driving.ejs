@@ -8,89 +8,79 @@
         <p class="align-p-center">No Rides Posted Yet.</p>
         <% } else { %>
 
-            <table class="table-style">
-                <thead>
-                    <tr>
-                        <th>Ride ID</th>
-                        <th>Start State</th>
-                        <th>Start City</th>
-                        <th>End State</th>
-                        <th>End City</th>
-                        <th>Leave Date</th>
-                        <th>Leave Time</th>
-                        <th>Riders</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% hostedRides.forEach((ride, iCount)=> { %>
-                        <tr>
-                            <td>
-                                <%= ride.ride_id %>
-                            </td>
-                            <td>
-                                <%= ride.start_state %>
-                            </td>
-                            <td>
-                                <%= ride.start_city %>
-                            </td>
-                            <td>
-                                <%= ride.end_state %>
-                            </td>
-                            <td>
-                                <%= ride.end_city %>
-                            </td>
-                            <td>
-                                <%= ride.formattedDateLeaving %>
-                            </td>
-                            <td>
-                                <%= ride.formattedTimeLeaving %>
-                            </td>
-                            <td><!-- Display riders -->
-                                <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
-                                    <% ride.joiningStudents.forEach(student=> { %>
-                                        <p>
-                                            <%= student.first_name %>
-                                                <%= student.last_name %> | <%= student.phone_number %> | <%=
-                                                            student.email %>
-                                        </p>
-                                        <% }) %>
-                                            <% } else { %>
-                                                <p>No students have joined yet.</p>
-                                                <% } %>
-                            </td>
-                            <td>
-                                <button onclick="toggleEditRow('editRow<%= iCount %>')" class="btn edit-btn">Edit
-                                    Details</button>
+            <div class="grid-container">
+                <% hostedRides.forEach((ride, iCount)=> { %>
+                    <div class="grid-item">
+                        <div class="grid-detail"><strong>Ride ID:</strong>
+                            <%= ride.ride_id %>
+                        </div>
+                        <div class="grid-detail"><strong>Departure City:</strong>
+                            <%= ride.start_city %>
+                        </div>
+                        <div class="grid-detail"><strong>Departure State:</strong>
+                            <%= ride.start_state %>
+                        </div>
+                        <div class="grid-detail"><strong>Destination City:</strong>
+                            <%= ride.end_city %>
+                        </div>
+                        <div class="grid-detail"><strong>Destination State:</strong>
+                            <%= ride.end_state %>
+                        </div>
+                        <div class="grid-detail"><strong>Departure Date:</strong>
+                            <%= ride.formattedDateLeaving %>
+                        </div>
+                        <div class="grid-detail"><strong>Departure Time:</strong>
+                            <%= ride.formattedTimeLeaving %>
+                        </div>
+                        <div class="grid-detail" style="gap: 1.25rem;"><strong>Riders:</strong>
+                            <!-- Display riders -->
+                            <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
+                                <% ride.joiningStudents.forEach(student=> { %>
+                                    <p style="text-align: right;">
+                                        <%= student.first_name %>
+                                            <%= student.last_name %> | <%= student.phone_number %> | <%= student.email
+                                                        %>
+                                    </p>
+                                    <% }) %>
+                                        <% } else { %>
+                                            <p style="text-align: right;">No students have joined yet.</p>
+                                            <% } %>
+                        </div>
+                        <div class="grid-detail" style="    display: inline-flex; justify-content: space-around;">
 
-                            </td>
-                        </tr>
-                        <tr id="editRow<%= iCount %>" class="edit-row" style="display:none;">
-                            <td colspan="9">
-                                <form action="/update-ride/<%= ride.ride_id %>" method="post" class="add-ride-form">
-                                    <label>Start State: <input type="text" name="start_state"
-                                            value="<%= ride.start_state %>"></label>
-                                    <label>Start City: <input type="text" name="start_city"
-                                            value="<%= ride.start_city %>"></label>
-                                    <label>End State: <input type="text" name="end_state"
-                                            value="<%= ride.end_state %>"></label>
-                                    <label>End City: <input type="text" name="end_city"
-                                            value="<%= ride.end_city %>"></label>
-                                    <label>Change Departure Date: <input type="date" name="leave_date"
-                                            value="<%= ride.formattedDateLeaving %>"></label>
-                                    <label>Change Departure Time: <input type="time" name="leave_time"
-                                            value="<%= ride.formattedTimeLeaving %>"></label>
-                                    <input type="submit" value="Save Changes" class="btn edit-btn">
-                                </form>
-                                <form id="deleteRideForm<%= iCount %>" action="/delete-ride/<%= ride.ride_id %>"
-                                    method="post" class="delete-ride-form">
-                                    <input type="submit" value="Delete Ride" class="btn delete-btn" id="delete-ride">
-                                </form>
-                            </td>
-                        </tr>
-                        <% }) %>
-                </tbody>
-            </table>
+                            <form id="deleteRideForm<%= iCount %>" action="/delete-ride/<%= ride.ride_id %>"
+                                method="post" class="delete-ride-form">
+                                <input type="submit" value="Delete Ride" class="btn delete-btn" id="delete-ride">
+                            </form>
+
+                            <button onclick="toggleEditRow('editRow<%= iCount %>')" class="btn edit-btn"
+                                id="edit-ride-btn">Edit</button>
+                        </div>
+                    </div>
+                    <!-- Hidden edit form -->
+                    <div id="editRow<%= iCount %>" class="edit-row" style="display:none;">
+                        <!-- Edit form content here -->
+                        <form action="/update-ride/<%= ride.ride_id %>" method="post" class="add-ride-form"
+                            id="edit-ride-form">
+                            <h4>Edit Ride <%= ride.ride_id%>
+                            </h4>
+                            <label>Start State: <input type="text" name="start_state"
+                                    value="<%= ride.start_state %>"></label>
+                            <label>Start City: <input type="text" name="start_city"
+                                    value="<%= ride.start_city %>"></label>
+                            <label>End State: <input type="text" name="end_state" value="<%= ride.end_state %>"></label>
+                            <label>End City: <input type="text" name="end_city" value="<%= ride.end_city %>"></label>
+                            <label>Change Departure Date: <input type="date" name="leave_date"
+                                    value="<%= ride.formattedDateLeaving %>"></label>
+                            <label>Change Departure Time: <input type="time" name="leave_time"
+                                    value="<%= ride.formattedTimeLeaving %>"></label>
+                            <input type="submit" value="Save Changes" class="btn edit-btn">
+                        </form>
+
+                    </div>
+                    <% }) %>
+            </div>
+
 
             <script>
                 function toggleEditRow(rowId) {

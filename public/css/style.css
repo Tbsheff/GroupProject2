@@ -2611,7 +2611,7 @@ form .edit-btn:hover,
 }
 
 .delete-ride-form {
-  margin: 0 auto;
+
   padding: 0;
 }
 
@@ -2699,17 +2699,21 @@ form .edit-btn:hover,
 }
 
 #delete-ride {
-  margin: auto;
-  font-size: 1rem;
-  padding: 12px 24px;
-  width: fit-content;
   margin-bottom: 0;
   background-color: #ff0000b5;
 }
 
-.delete-ride-form {
-  display: inline-flex;
-  justify-content: center;
-  width: 100%;
-  align-items: flex-start;
+#delete-ride:hover {
+  background-color: white;
+  color: #ff0000b5;
+}
+
+
+
+#edit-ride-form {
+  margin: 0;
+}
+
+#edit-ride-btn {
+  padding: 10px 20px;
 }
