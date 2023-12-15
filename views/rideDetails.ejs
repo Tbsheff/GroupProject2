@@ -116,7 +116,7 @@ End Fixed Navigation
 	<main>
 		<section class="service-2 section">
 			<h2>Available Rides</h2>
-		<!--only display NOT joined/hosted rides-->
+			<!--only display NOT joined/hosted rides-->
 			<div class="grid-container">
 				<% for (let iCount=0; iCount < allRides.length; iCount++) { %>
 					<% if (!allRides[iCount].isDriver && !allRides[iCount].hasjoined) { %>
@@ -149,8 +149,8 @@ End Fixed Navigation
 								</form>
 							</div>
 						</div>
-					<% } %>
-				<% } %>
+						<% } %>
+							<% } %>
 			</div>
 		</section>
 
@@ -179,9 +179,8 @@ End Fixed Navigation
 							<li>
 								<h3>Our Services</h3>
 							</li>
-							<li><a href="service.html">Post a Ride</a></li>
-							<li><a href="service.html">Find a Ride</a></li>
-							<li><a href="service.html">Support</a></li>
+							<li><a href="/newRide">Post a Ride</a></li>
+							<li><a href="/rides">Find a Ride</a></li>
 						</ul>
 					</div>
 					<!-- End of .col-sm-3 -->

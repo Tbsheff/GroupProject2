@@ -15,7 +15,7 @@ td {
 }
 
 /* Apply some basic styling to the form container */
-form {
+.add-ride-form {
     max-width: 400px;
     margin: 20px auto;
     padding: 20px;

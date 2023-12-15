@@ -2663,3 +2663,36 @@ form .edit-btn:hover {
   text-align: center;
   margin-top: 1rem;
 }
+
+#delete-account {
+  margin: auto;
+  margin-top: 1.25rem;
+  font-size: 0.75rem;
+  padding: 6px 12px;
+  width: fit-content;
+  margin-bottom: 0;
+  background-color: #ff0000b5;
+}
+
+#delete-account:hover {
+  background-color: white;
+  color: #ff0000b5;
+}
+
+.modify-user {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-span {
+  width: 100%;
+}
+
+.edit-td {
+  align-items: center;
+  display: flex;
+}

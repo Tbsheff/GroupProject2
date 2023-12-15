@@ -1,55 +1,79 @@
-<section class="service-2 section">
+<!-- 
+Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
+Section 2
+Group 2-11
+Group Project 3 -->
+<section
+>
     <!--Header for user rides table-->
     <div style="text-align: center;">
         <h2 style="margin-bottom: 0;">My Posted Rides</h2>
     </div>
 
-    <% if (hostedRides.length === 0) { %>
+    <% if (hostedRides.length===0) { %>
         <p class="align-p-center">No Rides Posted Yet.</p>
-    <% } else { %>
-        <table class="table-style" id="survey-results-table">
-            <thead>
-                <tr>
-                    <th>Ride ID</th>
-                    <th>Start State</th>
-                    <th>Start City</th>
-                    <th>End State</th>
-                    <th>End City</th>
-                    <th>Leave Date</th>
-                    <th>Leave Time</th>
-                    <th>Riders</th>
-                    <th>Ride Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% hostedRides.forEach((ride, iCount) => { %>
+        <% } else { %>
+            <table class="table-style" id="survey-results-table">
+                <thead>
                     <tr>
-                        <td><%= ride.ride_id %></td>
-                        <td><%= ride.start_state %></td>
-                        <td><%= ride.start_city %></td>
-                        <td><%= ride.end_state %></td>
-                        <td><%= ride.end_city %></td>
-                        <td><%= ride.formattedDateLeaving %></td>
-                        <td><%= ride.formattedTimeLeaving %></td>
-                        <td>
-                            <!--fill rider info, if none display no riders yet-->
-                            <% if (ride.joiningStudents && ride.joiningStudents.length > 0) { %>
-                                <% ride.joiningStudents.forEach(student => { %>
-                                    <p><%= student.first_name %> <%= student.last_name %> | <%= student.phone_number %> | <%= student.email %></p>
-                                <% }) %>
-                            <% } else { %>
-                                <p>No students joined yet.</p>
-                            <% } %>
-                        </td>
-                        <td>
-                            <form class="delete-ride-form" action="/delete-ride" method="post">
-                                <input type="hidden" name="ride_id" value="<%= ride.ride_id %>">
-                                <input type="submit" value="Delete Ride" class="edit-btn">
-                            </form>
-                        </td>
+                        <th>Ride ID</th>
+                        <th>Start State</th>
+                        <th>Start City</th>
+                        <th>End State</th>
+                        <th>End City</th>
+                        <th>Leave Date</th>
+                        <th>Leave Time</th>
+                        <th>Riders</th>
+                        <th>Ride Status</th>
                     </tr>
-                <% }) %>
-            </tbody>
-        </table>
-    <% } %>
+                </thead>
+                <tbody>
+                    <% hostedRides.forEach((ride, iCount)=> { %>
+                        <tr>
+                            <td>
+                                <%= ride.ride_id %>
+                            </td>
+                            <td>
+                                <%= ride.start_state %>
+                            </td>
+                            <td>
+                                <%= ride.start_city %>
+                            </td>
+                            <td>
+                                <%= ride.end_state %>
+                            </td>
+                            <td>
+                                <%= ride.end_city %>
+                            </td>
+                            <td>
+                                <%= ride.formattedDateLeaving %>
+                            </td>
+                            <td>
+                                <%= ride.formattedTimeLeaving %>
+                            </td>
+                            <td>
+                                <!--fill rider info, if none display no riders yet-->
+                                <% if (ride.joiningStudents && ride.joiningStudents.length> 0) { %>
+                                    <% ride.joiningStudents.forEach(student=> { %>
+                                        <p>
+                                            <%= student.first_name %>
+                                                <%= student.last_name %> | <%= student.phone_number %> | <%=
+                                                            student.email %>
+                                        </p>
+                                        <% }) %>
+                                            <% } else { %>
+                                                <p>No students joined yet.</p>
+                                                <% } %>
+                            </td>
+                            <td>
+                                <form class="delete-ride-form" action="/delete-ride" method="post">
+                                    <input type="hidden" name="ride_id" value="<%= ride.ride_id %>">
+                                    <input type="submit" value="Delete Ride" class="edit-btn">
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+            <% } %>
 </section>
