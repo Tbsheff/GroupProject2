@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 
+	<!-- 
+	Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
+	Section 2
+	Group 2-11
+	Group Project 3 -->
+
 	<!-- Basic Page Needs
   ================================================== -->
 	<meta charset="utf-8">
@@ -223,111 +229,103 @@ End Fixed Navigation
 
 
 
-			<script>
+	<script>
 
-				document.addEventListener('DOMContentLoaded', (event) => {
-					if (window.location.hash === '#rides') {
-						document.getElementById('accountDetails').style.display = 'none';
-						document.getElementById('rides').style.display = 'block';
-					}
-					else if (window.location.hash === '#rides-hosted') {
-						document.getElementById('accountDetails').style.display = 'none';
-						document.getElementById('rides-hosted').style.display = 'block';
+		document.addEventListener('DOMContentLoaded', (event) => {
+			if (window.location.hash === '#rides') {
+				document.getElementById('accountDetails').style.display = 'none';
+				document.getElementById('rides').style.display = 'block';
+			}
+			else if (window.location.hash === '#rides-hosted') {
+				document.getElementById('accountDetails').style.display = 'none';
+				document.getElementById('rides-hosted').style.display = 'block';
+			}
+		});
+
+
+		function toggleSections() {
+			let accountDetails = document.getElementById('accountDetails');
+			let ridesHosted = document.getElementById('rides-hosted');
+			let rides = document.getElementById('rides');
+
+			if (accountDetails.style.display === 'none') {
+				accountDetails.style.display = 'block';
+				rides.style.display = 'none';
+				ridesHosted.style.display = 'none';
+			}
+		}
+
+		function toggleRides() {
+			let rides = document.getElementById('rides');
+			let accountDetails = document.getElementById('accountDetails');
+			let ridesHosted = document.getElementById('rides-hosted');
+
+			if (rides.style.display === 'none') {
+				rides.style.display = 'block';
+				accountDetails.style.display = 'none';
+				ridesHosted.style.display = 'none';
+			}
+		}
+
+		function toggleHostedRides() {
+			let ridesHosted = document.getElementById('rides-hosted');
+			let accountDetails = document.getElementById('accountDetails');
+			let rides = document.getElementById('rides');
+
+
+			if (ridesHosted.style.display === 'none') {
+				ridesHosted.style.display = 'block';
+				accountDetails.style.display = 'none';
+				rides.style.display = 'none';
+			}
+
+		}
+
+
+	</script>
+
+	<!-- Main jQuery -->
+	<script src="/plugins/jquery/jquery.min.js"></script>
+
+	<!-- Bootstrap4 -->
+	<script src="/plugins/bootstrap/bootstrap.min.js"></script>
+	<!-- Parallax -->
+	<script src="/plugins/parallax/jquery.parallax-1.1.3.js"></script>
+	<!-- lightbox -->
+	<script src="/plugins/lightbox2/js/lightbox.min.js"></script>
+	<!-- Owl Carousel -->
+	<script src="/plugins/slick/slick.min.js"></script>
+
+	<!-- Smooth Scroll js -->
+	<script src="/plugins/smooth-scroll/smooth-scroll.min.js"></script>
+
+
+	<!-- Custom js -->
+	<script src="/js/script.js"></script>
+
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var editButtons = document.querySelectorAll('.edit-btn');
+
+			editButtons.forEach(function (button) {
+				button.addEventListener('click', function () {
+					var userId = this.getAttribute('data-user-id');
+					var editForm = document.getElementById('edit-form-' + userId);
+
+					// Toggle the display of the edit form
+					if (editForm.style.display === 'none') {
+						editForm.style.display = 'table-row';
+					} else {
+						editForm.style.display = 'none';
 					}
 				});
+			});
 
-
-				function toggleSections() {
-					let accountDetails = document.getElementById('accountDetails');
-					let ridesHosted = document.getElementById('rides-hosted');
-					let rides = document.getElementById('rides');
-
-					if (accountDetails.style.display === 'none') {
-						accountDetails.style.display = 'block';
-						rides.style.display = 'none';
-						ridesHosted.style.display = 'none';
-					}
-				}
-
-				function toggleRides() {
-					let rides = document.getElementById('rides');
-					let accountDetails = document.getElementById('accountDetails');
-					let ridesHosted = document.getElementById('rides-hosted');
-
-					if (rides.style.display === 'none') {
-						rides.style.display = 'block';
-						accountDetails.style.display = 'none';
-						ridesHosted.style.display = 'none';
-					}
-				}
-
-				function toggleHostedRides() {
-					let ridesHosted = document.getElementById('rides-hosted');
-					let accountDetails = document.getElementById('accountDetails');
-					let rides = document.getElementById('rides');
-
-
-					if (ridesHosted.style.display === 'none') {
-						ridesHosted.style.display = 'block';
-						accountDetails.style.display = 'none';
-						rides.style.display = 'none';
-					}
-
-				}
-
-
-			</script>
-
-			<!-- Main jQuery -->
-			<script src="/plugins/jquery/jquery.min.js"></script>
-
-			<!-- Bootstrap4 -->
-			<script src="/plugins/bootstrap/bootstrap.min.js"></script>
-			<!-- Parallax -->
-			<script src="/plugins/parallax/jquery.parallax-1.1.3.js"></script>
-			<!-- lightbox -->
-			<script src="/plugins/lightbox2/js/lightbox.min.js"></script>
-			<!-- Owl Carousel -->
-			<script src="/plugins/slick/slick.min.js"></script>
-
-			<!-- Smooth Scroll js -->
-			<script src="/plugins/smooth-scroll/smooth-scroll.min.js"></script>
-
-
-			<!-- Custom js -->
-			<script src="/js/script.js"></script>
-
-			<script>
-				function confirmDeleteLogout() {
-					// Display a confirmation dialog
-					var confirmation = confirm("Are you sure you want to delete the user and log out?");
-
-					// If the user confirms, allow form submission; otherwise, cancel it
-					return confirmation;
-				}
-			</script>
-			<script>
-				document.addEventListener('DOMContentLoaded', function () {
-					var editButtons = document.querySelectorAll('.edit-btn');
-
-					editButtons.forEach(function (button) {
-						button.addEventListener('click', function () {
-							var userId = this.getAttribute('data-user-id');
-							var editForm = document.getElementById('edit-form-' + userId);
-
-							// Toggle the display of the edit form
-							if (editForm.style.display === 'none') {
-								editForm.style.display = 'table-row';
-							} else {
-								editForm.style.display = 'none';
-							}
-						});
-					});
-
-					// Add logic for saving changes here
-					// ...
-				});
-			</script>
+			// Add logic for saving changes here
+			// ...
+		});
+	</script>
 
 </body>
 

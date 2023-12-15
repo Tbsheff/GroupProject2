@@ -1,28 +1,43 @@
+<!-- 
+Tyler Sheffield, Rai Martin, Allan Foote, Mikayla Randall
+Section 2
+Group 2-11
+Group Project 3 -->
+<!-- This is a sub-view that is inserted into the account view if toggle button it clicked -->
+
 <h2>Account Details</h2>
 <% for (let iCount=0; iCount < allAccounts.length; iCount++) { %>
-    <form action="/modify-user" method="post" class="modify-user">
-        <label for="">First Name</label>
-        <input type="text" name="first_name" value="<%= allAccounts[iCount].first_name%>" required>
-        <label for="">Last name</label>
-        <input type="text" name="last_name" value="<%= allAccounts[iCount].last_name%>" required>
-        <label for="">Email</label>
-        <input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
-        <label for="">Username</label>
-        <input type="text" name="username" value="<%= allAccounts[iCount].username%>" required>
-        <label for="">Update Password</label>
-        <input type="password" name="password" value="">
 
-        <div class="btn-span">
-            <button type="submit" style="grid-column: 2;" class="btn" id="save-changes">Save
-                Changes</button>
+    <div class="modify-user">
+        <form action="/modify-user" method="post">
+            <label for="">First Name</label>
+            <input type="text" name="first_name" value="<%= allAccounts[iCount].first_name%>" required>
+            <label for="">Last name</label>
+            <input type="text" name="last_name" value="<%= allAccounts[iCount].last_name%>" required>
+            <label for="">Email</label>
+            <input type="email" name="email" value="<%= allAccounts[iCount].email%>" required>
+            <label for="">Username</label>
+            <input type="text" name="username" value="<%= allAccounts[iCount].username%>" required>
+            <label for="">Update Password</label>
+            <input type="password" name="password" value="">
 
-            <form id="deleteLogoutUserForm" action="/delete-logout-user/<%= allAccounts[iCount].user_id %>"
-                method="POST" class="edit-td" onsubmit="return confirmDeleteLogout()">
-                <input type="submit" name="Delete" value="Delete" class="btn delete-btn" />
-            </form>
-            <% } %>
+            <div class="btn-span">
+                <input type="submit" style="grid-column: 2;" class="edit-btn" id="save-changes" value="Save Changes">
+            </div>
+        </form>
 
+        <form id="deleteLogoutUserForm<%= iCount %>" action="/delete-logout-user/<%= allAccounts[iCount].user_id %>"
+            method="POST" class="edit-td" onsubmit="return confirmDeleteLogout(<%= iCount %>);">
+            <input type="submit" name="Delete" value="Delete Account" class="btn delete-btn" id="delete-account" />
+        </form>
+        <% } %>
+    </div>
+    <script>
+        function confirmDeleteLogout(index) {
+            // Display a confirmation dialog
+            var confirmation = confirm("Are you sure you want to delete the user and log out?");
 
-
-        </div>
-    </form>
+            // If the user confirms, allow form submission; otherwise, cancel it
+            return confirmation;
+        }
+    </script>
