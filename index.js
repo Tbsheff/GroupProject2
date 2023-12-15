@@ -302,11 +302,11 @@ app.get('/account', isAuthenticated, async (req, res) => {
                 .join('student', 'student_ride.student_id', 'student.student_id')
                 .where('student_ride.ride_id', ride.ride_id)
                 .select('student.first_name', 'student.last_name', 'student.phone_number', 'student.email');
-        
+
             //stick joined students into an array for easy access
             ride.joiningStudents = joiningStudents || [];
         }
-        
+
         let modifiedHostedRides = hostedRides.map(ride => ({
             ...ride,
             formattedDateLeaving: formatDate(ride.date_leaving),
@@ -437,33 +437,42 @@ app.post('/modify-user', isAuthenticated, (req, res) => {
 
 app.post('/modify-ride-info/:rideId', isAuthenticated, (req, res) => {
     console.log(req.body);
-    const rideId = req.params.rideId; 
+    let rideId = req.params.rideId;
+
+    // Create an object to hold the fields to be updated
+    let updateFields = {
+        start_state: req.body.start_state,
+        start_city: req.body.start_city,
+        end_state: req.body.end_state,
+        end_city: req.body.end_city
+    };
+
+    // Check if leave_date and leave_time exist and add them to the updateFields object
+    if (req.body.leave_date) {
+        updateFields.date_leaving = req.body.leave_date;
+    }
+    if (req.body.leave_time) {
+        updateFields.time_leaving = req.body.leave_time;
+    }
 
     knex.transaction(trx => {
         return trx('ride')
             .where({
-                'student_driver': req.session.user.id, 
-                'ride_id': rideId 
+                'student_driver': req.session.user.id,
+                'ride_id': rideId
             })
-            .update({
-                // Update the ride details based on the request body
-                start_state: req.body.start_state,
-                start_city: req.body.start_city,
-                end_state: req.body.end_state,
-                end_city: req.body.end_city,
-                formattedDateLeaving: req.body.leave_date, 
-                formattedTimeLeaving: req.body.leave_time 
-            });
+            .update(updateFields);
     })
-    .then(() => {
-        res.redirect('/account-driving');
-    })
-    .catch((error) => {
-        console.error(error);
-        req.flash('alert', 'There was an error updating the ride information. Please try again.');
-        res.redirect('/modify-ride-info/' + rideId); 
-    });
+        .then(() => {
+            res.redirect('/account#rides-hosted');
+        })
+        .catch((error) => {
+            console.error(error);
+            req.flash('alert', 'There was an error updating the ride information. Please try again.');
+            res.redirect('/account#rides-hosted');
+        });
 });
+
 
 
 //logic for passing user information to the database when they join a ride
